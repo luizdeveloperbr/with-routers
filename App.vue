@@ -23,7 +23,7 @@
 </template>
 <script>
     import 'bulma/css/bulma.css'
-    // import 'flatpickr/dist/plugins/monthSelect/index.js'
+    // import {monthSelectPlugin} from 'flatpickr/dist/plugins/monthSelect/index.js'
     import 'flatpickr/dist/plugins/monthSelect/style.css'
 	import flatPickr from 'vue-flatpickr-component'
 	import 'flatpickr/dist/flatpickr.css';
@@ -31,7 +31,7 @@
 	export default {
 		name: 'App',
 		data: () => ({
-			monthpick: new Date(),
+			monthpick: new Date([2019,1,1]),
 			mconfig:{
             locale: Portuguese,
             plugins:[new monthSelectPlugin({
