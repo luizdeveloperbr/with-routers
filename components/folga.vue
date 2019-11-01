@@ -2,10 +2,10 @@
 <template>
 <div>
 	<fieldset style="width: 55px"  disabled v-if="active">
-		<flat-pickr :config="config" v-model="input" :class="{'input':true}"></flat-pickr>
+		<flat-pickr :config="config" v-model="input" :class="{'input':true, 'is-small':true}"></flat-pickr>
 	</fieldset>
 	<fieldset style="width: 55px" v-else>
-		<flat-pickr :config="config" v-model="input" :class="{'input':true}"></flat-pickr>
+		<flat-pickr :config="config" v-model="input" :class="{'input':true,'is-small':true}"></flat-pickr>
 	</fieldset>
     </div>
 </template>

@@ -59,27 +59,13 @@
 </td>
 <td v-if="condFivDom"><!--<folga :get-date="domFive" ref="ffive"></folga>--></td>
 </tr>
-<tr><!--buttos de controle-->
-  <td><input type="text" class="input" v-model="mat" placeholder="Matricula"/></td>
-  <td><input type="text" class="input" v-model="nome" placeholder="Nome" @keypress.enter="addColab"/></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td v-if="condFivDom">Domingo</td>
-  <td v-if="condFivDom"></td>
-</tr>
 </table>
 </template>
 <script>
     import folga from '../components/folga.vue'
     import domingo from '../components/domingo.vue'
 	export default {
-		name: 'home',
+		name: 'mensal',
         pouchdb:{
 			db:{
 				localDB: "db"
