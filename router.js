@@ -1,4 +1,3 @@
-
 import Router from 'vue-router'
 import Mensal from './views/Mensal.vue'
 import Interjornada from './views/Interjornada.vue'

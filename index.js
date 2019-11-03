@@ -1,6 +1,7 @@
 import App from './App.vue'
-import routes from './router'
+import router from './router'
 new Vue({
-  router: routes,
-  components:{ App }
- }).$mount('#app')
+  el:"#app",
+  router: router,
+  components:{App}
+ })

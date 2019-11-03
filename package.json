@@ -3,22 +3,26 @@
   "version": "1.0.0",
   "description": "aplicativo contendo os seguintes frameworks : vue, pouchdb, bulma, vuepouch",
   "main": "index.js",
+  "alias": {
+    "vue": "./node_modules/vue/dist/vue.common.js"
+  },
   "scripts": {
-    "dev": "parcel -p 3000 index.html"
+    "dev": "parcel -p 3000 index.html",
+    "build": "parcel build index.html"
   },
   "author": "github.com/luizdeveloperbr",
   "license": "MIT",
   "dependencies": {
-    "@creativebulma/bulma-collapsible": "^1.0.4",
     "bulma": "^0.7.5",
     "flatpickr": "^4.6.3",
-    "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.24.0",
     "parcel": "^1.12.4",
+    "pouchdb-browser": "^7.1.1",
     "vue": "^2.6.10",
     "vue-flatpickr-component": "^8.1.4",
     "vue-hot-reload-api": "^2.3.3",
-    "vue-router": "^3.1.3"
+    "vue-router": "^3.1.3",
+    "vuepouch-db": "^1.0.4"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.0.0",

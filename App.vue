@@ -4,23 +4,26 @@
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-menu">
     <div class="navbar-start">
-     <div class="navbar-item"><flat-pickr class="input" :config="mconfig" v-model="monthpick" /></div>
-        <div class="navbar-item">
-        <div class="field is-grouped">
-          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'mercearia'}}">Merc</router-link></p>
-          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'horti'}}">Horti</router-link></p>
-        </div>
-      </div>
-    </div>
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons are-small">
+          <div class="navbar-item">Mês:</div>
+      <div class="navbar-item"><flat-pickr class="input" :config="mconfig" v-model="monthpick"/></div>
+    <div class="navbar-item">Tipo:</div>
+       <div class="navbar-item">
+        <div class="buttons">
           <router-link class="button" active-class="is-primary" to="/mensal">Mensal</router-link>
           <router-link class="button" active-class="is-primary" to="/interjornada">Inter</router-link>
         </div>
       </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link"></a>
+    </div>
+    <div class="navbar-end">
+    <div class="navbar-item">Setor:</div>
+      <div class="navbar-item">
+      <div class="field is-grouped">
+          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'mercearia'}}">Merc</router-link></p>
+          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'horti'}}">Horti</router-link></p>
+        </div>
+       </div>
+            <div class="navbar-item has-dropdown is-hoverable" id="new">
+        <a class="navbar-link">Novo:</a>
         <div class="navbar-dropdown is-right">
           <a class="navbar-item" @click="modalActive = true">
             Add Colaborador
@@ -79,12 +82,13 @@
 </div>
 </template>
 <script>
+
     import 'bulma/css/bulma.css'
-    // import {monthSelectPlugin} from 'flatpickr/dist/plugins/monthSelect/index.js'
     import 'flatpickr/dist/plugins/monthSelect/style.css'
 	import flatPickr from 'vue-flatpickr-component'
-	import 'flatpickr/dist/flatpickr.css';
+	import 'flatpickr/dist/flatpickr.css'
 	import { Portuguese } from 'flatpickr/dist/l10n/pt.js'
+
 	export default {
 		name: 'App',
         pouchdb:{
@@ -98,7 +102,7 @@
                 }
         },
 		data: () => ({
-			monthpick: new Date([2019,1,1]),
+			monthpick: "",
             modalActive: false,
             mat: "",
             nome: "",

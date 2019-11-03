@@ -10,8 +10,11 @@
     </div>
 </template>
 <script>
+    import moment from 'moment'
+    import 'moment/locale/pt-br'
 	import flatPickr from 'vue-flatpickr-component'
     import { Portuguese } from 'flatpickr/dist/l10n/pt.js'
+    moment.locale('pt-br')
 	export default {
     name: 'folga',
 	props: ['getDate'],
