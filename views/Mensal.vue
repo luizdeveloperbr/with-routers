@@ -40,33 +40,34 @@
 <!-- <time-entrance></time-entrance> -->
 </td>
 <td><!-- data da folga-->
-  <folga :get-date="colab.weeks[W_1].dia"></folga>
+  <folga :get-date="colab.weeks[$refs.D_1.W].dia"></folga>
 </td>
 <td> <!--dropdown para seleção dos horarios-->
 <!-- <time-entrance></time-entrance> -->
 </td>
-<td><!--<folga :get-date="colab.weeks[W_2].dia"></folga>--></td>
+<td>  <folga :get-date="colab.weeks[$refs.D_2.W].dia"></folga></td>
 <td> <!--dropdown para seleção dos horarios-->
   <!-- <time-entrance ></time-entrance> -->
 </td>
-<td><!--<folga :get-date="domThree" ref="fthree"></folga>--></td>
+<td>  <folga :get-date="colab.weeks[$refs.D_3.W].dia"></folga></td>
 <td> <!--dropdown para seleção dos horarios-->
   <!-- <time-entrance></time-entrance> -->
 </td>
-<td><!--<folga :get-date="domFour" ref="ffour"></folga>--></td>
+<td>  <folga :get-date="colab.weeks[$refs.D_4.W].dia"></folga></td>
 <td v-if="condFivDom">
   <!-- <time-entrance ></time-entrance> -->
   2
 </td>
-<td v-if="condFivDom">2<!--<folga :get-date="domFive" ref="ffive"></folga>--></td>
+<td v-if="condFivDom">  <folga :get-date="colab.weeks[$refs.D_5.W].dia"></folga></td>
 </tr>
 </table>
 </template>
 <script>
     import moment from 'moment'
+    import 'moment/locale/pt-br'
+    moment.locale('pt-br')
     import folga from '../components/folga.vue'
     import domingo from '../components/domingo.vue'
-    moment.locale('pt-br')
 	export default {
 		name: 'mensal',
         pouchdb:{
@@ -74,12 +75,6 @@
 				localDB: "db"
 			}
 		},
-		data: () => ({mat: "", nome: ""}),
-        methods: {
-            addColab: function() {
-                return this.$pouchdbRefs.db.put( this.$route.query.setor, {mat: this.mat, nome: this.nome, weeks:[{dia:"21/Out",horario:{cod:123,hora:"testehora"}}]})
-                }
-        },
 		computed:{
         	colabList:function() {
                  switch (this.$route.query.setor) {
@@ -87,29 +82,10 @@
                     case "horti": return this.db.horti
                 } return console.log("selecione um setor")
 			},
-        W_1: function(){
-            var day = moment(this.$refs.D_1.display,"DD/MM/YYYY").format('WW');
-            return Number(day-1)
-        },
-         W_2: function(){
-            var day = moment(this.$refs.D_2.display,"DD/MM/YYYY").format('WW');
-            return Number(day-1)
-        },
-         W_3: function(){
-            var day = moment(this.$refs.D_3.display,"DD/MM/YYYY").format('WW');
-            return Number(day-1)
-        },
-         W_4: function(){
-            var day = moment(this.$refs.D_4.display,"DD/MM/YYYY").format('WW');
-            return Number(day-1)
-        },
-         W_5: function(){
-            var day = moment(this.$refs.D_5.display,"DD/MM/YYYY").format('WW');
-            return Number(day-1)
-        },
         condFivDom:function () {
            let VW_4 = moment(this.validateDate).add(3,"w").month();
            let VW_5 = moment(this.validateDate).add(4,"w").month();
+      
 			if ( VW_4 == VW_5) {
 				return true
 			} else {

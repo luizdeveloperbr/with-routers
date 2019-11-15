@@ -48,7 +48,9 @@
 </div>
 </div>
   <div class="panel-block">
+    <div class="table-container">
 <router-view></router-view>
+    </div>
   </div>
   </div><!--panel-->
   <div class="modal" :class="{'is-active': modalActive}">
@@ -96,11 +98,19 @@
 				localDB: "db"
 			}
 		},
-        methods: {
+         methods: {
             addColab: function() {
-                return this.$pouchdbRefs.db.put( this.$route.query.setor, {mat: this.mat, nome: this.nome, weeks:[{dia:"21/Out",horario:{cod:123,hora:"testehora"}}]})
+                return this.$pouchdbRefs.db.put( this.$route.query.setor, {mat: this.mat, nome: this.nome, weeks:this.wadd})
                 }
         },
+    computed:{
+      wadd:function(){
+                var weeks = [];
+                do{
+                    weeks.push({dia:"",horario:{cod:0,hora:""}})
+                } while (weeks.length < 52);
+                return weeks
+            }},
 		data: () => ({
 			monthpick: "",
             modalActive: false,

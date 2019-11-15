@@ -21,6 +21,11 @@ moment.locale('pt-br')
 				return moment(initDate).startOf('week').add(1, 'week').toObject()
 			}
 		},
+		W: function()
+		{
+			var day = moment(this.iniDate).add(this.addWeeks, 'week').format('WW');
+			return Number(day-1)
+		}
 	}
 }
 </script>
