@@ -2,7 +2,6 @@
 <template>
 <table class="table is-striped">
 <tr>
-<!--<div class="columns">-->
   <td></td>
   <td></td>
   <td>Domingo</td>
@@ -15,10 +14,8 @@
   <td></td>
   <td v-if="condFivDom">Domingo</td>
   <td v-if="condFivDom"></td>
-<!--</div>-->
 </tr>
 <tr>
-<!--<div class="columns">-->
 	<td>Mat</td>
 	<td>Colaborador</td>
   	<td><domingo add-weeks="0" ref="D_1"></domingo></td>
@@ -31,12 +28,11 @@
 	<td>folga</td>
   <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
 <td v-if="condFivDom">folga</td>
-<!--</div>-->
 </tr>
 <tr v-for="colab in colabList">
   <td>{{colab.mat}}</td>
   <td>{{colab.nome}}</td>
-  <td> <!--dropdown para seleção dos horarios-->
+  <td>
 <!-- <time-entrance></time-entrance> -->
 </td>
 <td><!-- data da folga-->
