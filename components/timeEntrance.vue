@@ -8,7 +8,7 @@
   </div>
   <div class="dropdown-menu" id="dropdown-menu3" role="menu">
     <div class="dropdown-content">
-      <div class="dropdown-item" v-for="t in timelist">
+      <div class="dropdown-item" v-for="t in list">
        <a href="#" @click="cod = t.cod;hora = t.hora">{{t.hora}}</a>
       </div>
     </div>
@@ -17,16 +17,21 @@
 </template>
 <script>
 	export default {
-		name: 'timeEntrance',
+		name: 'time-entrance',
+        pouchdb:{
+            db:{localDB:"db"}
+        },
+        props: ["timeList"],
 		data: function (){
 			return {
-				cod: "",
-        hora: "",
-        timeList:[
-      {cod: 123, hora: "10:00-13:00/14:00-18:00"}
-      ],
-			}
-
-		},
-	}
+				cod: this.timeList.cod,
+                hora: this.timeList.hora,
+        }
+	},
+    computed:{
+        list:function(){
+            return this.db.horario
+        },
+    }
+}
 </script>

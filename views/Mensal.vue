@@ -1,7 +1,7 @@
 <!--Home.vue-->
 <template>
 <table class="table is-striped">
-<tr>
+<tr id="head-list">
   <td></td>
   <td></td>
   <td>Domingo</td>
@@ -15,7 +15,7 @@
   <td v-if="condFivDom">Domingo</td>
   <td v-if="condFivDom"></td>
 </tr>
-<tr>
+<tr id="head-list">
 	<td>Mat</td>
 	<td>Colaborador</td>
   	<td><domingo add-weeks="0" ref="D_1"></domingo></td>
@@ -29,30 +29,29 @@
   <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
 <td v-if="condFivDom">folga</td>
 </tr>
-<tr v-for="colab in colabList">
+<tr v-for="colab in colabList" id="list">
   <td>{{colab.mat}}</td>
   <td>{{colab.nome}}</td>
   <td>
-<!-- <time-entrance></time-entrance> -->
+<time-entrance :time-list="colab.weeks[$refs.D_1.W].horario"></time-entrance>
 </td>
 <td><!-- data da folga-->
-  <folga :get-date="colab.weeks[$refs.D_1.W].dia"></folga>
+  <folga :get-date="colab.weeks[$refs.D_1.W].dia" :ref="colab.mat + 'F_1'"></folga>
 </td>
 <td> <!--dropdown para seleção dos horarios-->
-<!-- <time-entrance></time-entrance> -->
+<time-entrance :time-list="colab.weeks[$refs.D_2.W].horario"></time-entrance>
 </td>
 <td>  <folga :get-date="colab.weeks[$refs.D_2.W].dia"></folga></td>
 <td> <!--dropdown para seleção dos horarios-->
-  <!-- <time-entrance ></time-entrance> -->
+  <time-entrance :time-list="colab.weeks[$refs.D_3.W].horario"></time-entrance>
 </td>
-<td>  <folga :get-date="colab.weeks[$refs.D_3.W].dia"></folga></td>
+<td>  <folga :get-date="colab.weeks[$refs.D_3.W].dia" :get-prev-folg="colab.mat + 'F_1'"></folga></td>
 <td> <!--dropdown para seleção dos horarios-->
-  <!-- <time-entrance></time-entrance> -->
+  <time-entrance :time-list="colab.weeks[$refs.D_4.W].horario"></time-entrance>
 </td>
 <td>  <folga :get-date="colab.weeks[$refs.D_4.W].dia"></folga></td>
 <td v-if="condFivDom">
-  <!-- <time-entrance ></time-entrance> -->
-  2
+  <time-entrance :time-list="colab.weeks[$refs.D_5.W].horario"></time-entrance>
 </td>
 <td v-if="condFivDom">  <folga :get-date="colab.weeks[$refs.D_5.W].dia"></folga></td>
 </tr>
@@ -64,6 +63,7 @@
     moment.locale('pt-br')
     import folga from '../components/folga.vue'
     import domingo from '../components/domingo.vue'
+        import timeEntrance from '../components/timeEntrance.vue'
 	export default {
 		name: 'mensal',
         pouchdb:{
@@ -79,14 +79,7 @@
                 } return console.log("selecione um setor")
 			},
         condFivDom:function () {
-           let VW_4 = moment(this.validateDate).add(3,"w").month();
-           let VW_5 = moment(this.validateDate).add(4,"w").month();
-      
-			if ( VW_4 == VW_5) {
-				return true
-			} else {
-				return false
-            }
+            return moment(this.validateDate).add(3,"w").month() == moment(this.validateDate).add(4,"w").month();
         },
 		validateDate: function () {
 			var initDate = moment(this.$parent.monthpick, "MMMM YYYY").startOf('month').toDate();
@@ -98,7 +91,11 @@
 		}
 		},
 		components:{
-			folga,domingo
+			folga,domingo,timeEntrance
 		}
 	}
 </script>
+<style>
+#list > td {padding: 0px!important}
+#head-list > td {text-align: center!important}
+</style>

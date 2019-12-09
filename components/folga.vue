@@ -17,29 +17,27 @@
     moment.locale('pt-br')
 	export default {
     name: 'folga',
-	props: ['getDate'],
+	props: ['getDate','getPrevFolg'],
     data: function(){
         return {
             input: "",
-            active: false
+            active: this.enable
         }
     },
         computed: {
         config: function(){
             return {
                 dateFormat: "d/M",
-                minDate: this.minDate,
+                minDate: moment(this.getDate, "DD/MMM").subtract(9, 'day').toDate(),
                 defaultDate: this.getDate,
-                maxDate: this.maxDate,
+                maxDate: moment(this.getDate, "DD/MMM").add(9, 'day').toDate(),
                 locale: Portuguese
             }
         },
-        minDate: function () {
-			return moment(this.getDate, "DD/MMM", "pt-br").subtract(9, 'day').toDate()
-		},
-        maxDate: function (){
-			return moment(this.getDate, "DD/MMM", "pt-br").add(9, 'day').toDate();
-        },
+        enable: function(){
+            var join = 'parent.refs.' + this.getPrevFolg + '.input';
+            return $join
+        }
 	},
     components:{flatPickr},
 }
