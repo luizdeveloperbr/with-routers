@@ -30,8 +30,8 @@
 <td v-if="condFivDom">folga</td>
 </tr>
 <tr v-for="colab in colabList" id="list">
-  <td>{{colab.mat}}</td>
-  <td>{{colab.nome}}</td>
+  <td style="padding-left: 5px!important">{{colab.mat}}</td>
+  <td style="padding-left: 5px!important">{{colab.nome}}</td>
   <td>
 <time-entrance :time-list="colab.weeks[$refs.D_1.W].horario"></time-entrance>
 </td>
@@ -74,9 +74,8 @@
 		computed:{
         	colabList:function() {
                  switch (this.$route.query.setor) {
-                    case "mercearia": return this.db.mercearia;
-                    case "horti": return this.db.horti
-                } return console.log("selecione um setor")
+                    case "fastfood": return this.db.fastfood;
+                }
 			},
         condFivDom:function () {
             return moment(this.validateDate).add(3,"w").month() == moment(this.validateDate).add(4,"w").month();
@@ -96,6 +95,5 @@
 	}
 </script>
 <style>
-#list > td {padding: 0px!important}
-#head-list > td {text-align: center!important}
+#list > td {padding: 0px}
 </style>

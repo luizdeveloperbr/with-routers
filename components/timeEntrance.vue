@@ -2,7 +2,7 @@
 <template>
 	<div class="dropdown is-hoverable">
   <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3" @click.ctrl.exact="cod=0;hora=''">
       <span class="is-size-7">cod: {{cod}} <br/> {{hora}}</span>
     </button>
   </div>

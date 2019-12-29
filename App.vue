@@ -18,8 +18,7 @@
     <div class="navbar-item">Setor:</div>
       <div class="navbar-item">
       <div class="field is-grouped">
-          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'mercearia'}}">Merc</router-link></p>
-          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'horti'}}">Horti</router-link></p>
+          <p class="control"><router-link class="button is-rounded" exact-active-class="is-primary" tag="button" :to="{query: {setor:'fastfood'}}">Fast-Food</router-link></p>
         </div>
        </div>
             <div class="navbar-item has-dropdown is-hoverable" id="new">
@@ -114,7 +113,6 @@
 </template>
 <script>
 
-    import 'bulma/css/bulma.css'
     import 'flatpickr/dist/plugins/monthSelect/style.css'
 	import flatPickr from 'vue-flatpickr-component'
 	import 'flatpickr/dist/flatpickr.css'
@@ -136,8 +134,6 @@
           },
             addColab: function() {
                 return this.$pouchdbRefs.db.put( this.$route.query.setor, {mat: this.mat, nome: this.nome, weeks:this.wadd});
-                this.mat = null;
-                this.nome = null;
                 },
             addTime: function() {
                 return this.$pouchdbRefs.db.put("horario", {cod: this.cod, hora: this.hora});
@@ -155,7 +151,7 @@
                 return weeks
             },
             		validateDate: function () {
-			var initDate = moment({month:0,year:2019}).startOf('month').toDate();
+			var initDate = moment("Janeiro", "MMMM").startOf('month').toObject();
 			if (moment(initDate).weekday() == 0) {
 				return moment(initDate).toObject()
 			} else {
@@ -164,7 +160,7 @@
 		}},
 		data: function(){
 			return {
-            monthpick: null,
+            monthpick: moment(new Date()).format('MMMM YYYY'),
             modalActive: false,
             hmodalActive: false,
             mat: "",
@@ -183,3 +179,7 @@
 		}
 	}
 </script>
+<style lang="scss">
+$primary: hsl(1.5, 100%, 47.8%);
+@import './node_modules/bulma/bulma.sass'
+</style>
