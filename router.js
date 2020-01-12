@@ -8,12 +8,12 @@ export default new Router({
   routes: [
     {
       path: '/mensal',
-      name: 'Escala Mensal',
+      name: 'mensal',
       component: Mensal
     },
     {
       path: '/interjornada',
-      name: 'Escala de Interjornada',
+      name: 'interjornada',
       component: Interjornada
     }
   ]

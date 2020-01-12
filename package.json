@@ -13,10 +13,13 @@
   "author": "github.com/luizdeveloperbr",
   "license": "MIT",
   "dependencies": {
+    "ant-design-vue": "^1.4.10",
     "bulma": "^0.7.5",
+    "bulma-calendar": "^6.0.7",
     "flatpickr": "^4.6.3",
     "moment": "^2.24.0",
     "parcel": "^1.12.4",
+    "pouchdb": "^7.1.1",
     "pouchdb-browser": "^7.1.1",
     "vue": "^2.6.10",
     "vue-flatpickr-component": "^8.1.4",
