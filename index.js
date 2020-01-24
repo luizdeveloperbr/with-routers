@@ -1,11 +1,10 @@
+import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router.js'
+import { rtdbPlugin } from 'vuefire'
 
-    //import { AutoComplete } from 'ant-design-vue'
-    //import 'ant-design-vue/dist/antd.css'
-    //Vue.use(AutoComplete)
+Vue.use(rtdbPlugin)
 new Vue({
-  el:"#app",
-  router: router,
-  components:{App}
- })
+  router,
+  render: h => h(App)
+ }).$mount('#app')

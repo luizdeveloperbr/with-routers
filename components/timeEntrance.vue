@@ -1,10 +1,13 @@
 <!-- timeEntrance -->
 <template>
 	<div class="dropdown is-hoverable">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3" @click.ctrl.exact="cod=0;hora=''">
-      <span class="is-size-7">cod: {{cod}} <br/> {{hora}}</span>
+  <div class="dropdown-trigger field has-addons">
+    <button class="button is-primary is-outlined" aria-haspopup="true" aria-controls="dropdown-menu3" >
+      <span class="is-size-7 has-text-black">cod: {{cod}} <br/> {{hora}}</span>
     </button>
+        <a class="button is-small control is-primary is-outlined" title="clear" @click="cod=0;hora=''">
+        <i class="material-icons has-text-primary">clear</i>
+    </a>
   </div>
   <div class="dropdown-menu" id="dropdown-menu3" role="menu">
     <div class="dropdown-content">
