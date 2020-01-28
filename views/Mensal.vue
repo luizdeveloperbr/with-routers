@@ -1,100 +1,73 @@
-<!--Home.vue-->
 <template>
-<table class="table is-striped">
-<tr id="head-list">
-  <td></td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td>Domingo</td>
-  <td></td>
-  <td v-if="condFivDom">Domingo</td>
-  <td v-if="condFivDom"></td>
-</tr>
-<tr id="head-list">
-	<td>Mat</td>
-	<td>Colaborador</td>
-  	<td><domingo add-weeks="0" ref="D_1"></domingo></td>
-	<td>folga</td>
-	<td><domingo add-weeks="1" ref="D_2"></domingo></td>
-	<td>folga</td>
-	<td><domingo add-weeks="2" ref="D_3"></domingo></td>
-	<td>folga</td>
-	<td><domingo add-weeks="3" ref="D_4"></domingo></td>
-	<td>folga</td>
-  <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
-<td v-if="condFivDom">folga</td>
-</tr>
-<tr v-for="colab in colabList" id="list">
-  <td style="padding-left: 5px!important">{{colab.mat}}</td>
-  <td style="padding-left: 5px!important">{{colab.nome}}</td>
-  <td>
-<time-entrance :time-list="colab.weeks[$refs.D_1.W].horario"></time-entrance>
-</td>
-<td><!-- data da folga-->
-  <folga :get-date="colab.weeks[$refs.D_1.W].dia" :ref="colab.mat + 'F_1'"></folga>
-</td>
-<td> <!--dropdown para seleção dos horarios-->
-<time-entrance :time-list="colab.weeks[$refs.D_2.W].horario"></time-entrance>
-</td>
-<td>  <folga :get-date="colab.weeks[$refs.D_2.W].dia"></folga></td>
-<td> <!--dropdown para seleção dos horarios-->
-  <time-entrance :time-list="colab.weeks[$refs.D_3.W].horario"></time-entrance>
-</td>
-<td>  <folga :get-date="colab.weeks[$refs.D_3.W].dia" :get-prev-folg="colab.mat + 'F_1'"></folga></td>
-<td> <!--dropdown para seleção dos horarios-->
-  <time-entrance :time-list="colab.weeks[$refs.D_4.W].horario"></time-entrance>
-</td>
-<td>  <folga :get-date="colab.weeks[$refs.D_4.W].dia"></folga></td>
-<td v-if="condFivDom">
-  <time-entrance :time-list="colab.weeks[$refs.D_5.W].horario"></time-entrance>
-</td>
-<td v-if="condFivDom">  <folga :get-date="colab.weeks[$refs.D_5.W].dia"></folga></td>
-</tr>
-</table>
+<div>
+  <mensal :id="rota" :get-date="$parent.monthpick"></mensal>
+    <div class="modal" :class="{'is-active': modalActive}">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Novo Colaborador</p>
+      <button class="delete" aria-label="close" @click="modalActive = false"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="field">
+  <label class="label">Nome</label>
+  <div class="control">
+    <input class="input"type="text" placeholder="e.g Alex Smith" v-model="nome">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Matricula</label>
+  <div class="control">
+    <input class="input"type="text" placeholder="e.g. 545559" v-model="mat">
+  </div>
+</div>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" @click="addColab">Salvar</button>
+      <button class="button">Limpar</button>
+    </footer>
+  </div>
+</div>
+</div>
 </template>
 <script>
-
-    import moment from 'moment'
-    import 'moment/locale/pt-br'
-    moment.locale('pt-br')
-    import folga from '../components/folga.vue'
-    import domingo from '../components/domingo.vue'
-    import timeEntrance from '../components/timeEntrance.vue'
-	export default {
-		name: 'mensal',
-        pouchdb:{
-			db:{
-				localDB: "db"
-			}
-		},
-		computed:{
-        	colabList:function() {
-                 switch (this.$route.query.setor) {
-                    case "fastfood": return this.db.fastfood;
-                }
-			},
-        condFivDom:function () {
-            return moment(this.validateDate).add(3,"w").month() == moment(this.validateDate).add(4,"w").month();
+import {db} from '../db'
+import mensal from './Mensalcomp.vue'
+import moment from 'moment'
+export default {
+    data: () => ({
+        modalActive: false,
+        nome:"",
+        mat:""}),
+        methods: {
+            addColab(){
+                return db.ref("setores" + this.rota).push({mat: this.mat,nome: this.nome, weeks: this.wadd})
+            }
         },
-		validateDate: function () {
-			var initDate = moment(this.$parent.monthpick, "MMMM YYYY").startOf('month').toDate();
-			if (moment(initDate).weekday() == 0) {
-				return moment(initDate).toObject()
-			} else {
-				return moment(initDate).startOf('week').add(1, 'week').toObject()
-			}
-		}
-		},
-		components:{
-			folga,domingo,timeEntrance
-		}
-	}
+    computed:{
+                wadd: function () {
+            var weeks = [];
+            var i = weeks.length
+            while (i < 52) {
+
+                weeks.push({
+                    dia: moment(this.$parent.validateDate).add(i++, 'w').format('DD/MMM'),
+                    horario: {
+                        cod: 99,
+                        hora: "12:00"
+                    }
+                })
+
+            };
+            return weeks
+        },
+        rota(){
+            var url = this.$parent.setor + "/" + this.$parent.inmes
+            return url.toLowerCase()}
+    },
+    components:{
+        mensal
+    }
+}
 </script>
-<style>
-#list > td {padding: 0px}
-</style>

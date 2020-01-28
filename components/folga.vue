@@ -35,25 +35,24 @@
             active: false
         }
     },
-    mounted() {
+   mounted() {
                  let fp = document.getElementsByClassName('flatpickr');
          return flatpickr(fp,{
              wrap:true,
              dateFormat: 'd/M',
-            minDate: this.config.minDate,
-            maxDate: this.config.maxDate,
+                minDate: moment(this.getDate, "DD/MMM").subtract(9, 'day').toDate(),
+                maxDate: moment(this.getDate, "DD/MMM").add(9, 'day').toDate(),
             locale: Portuguese
              })
     },
-        computed: {
+        /*computed: {
         config: function(){
             return {
                 dateFormat: "d/M",
-                minDate: moment(this.getDate, "DD/MMM").subtract(9, 'day').toDate(),
-                maxDate: moment(this.getDate, "DD/MMM").add(9, 'day').toDate(),
+,
 
             }
         },
-	},
+        },*/
 }
 </script>

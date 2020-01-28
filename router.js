@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/mensal/:setor',
+      path: '/mensal/:setor/:mes',
       name: 'mensal',
       component: Mensal
     },
