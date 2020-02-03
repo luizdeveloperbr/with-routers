@@ -7,7 +7,7 @@
     "vue": "./node_modules/vue/dist/vue.common.js"
   },
   "scripts": {
-    "dev": "parcel -p 3000 index.html",
+    "start": "parcel -p 3000 index.html",
     "build": "parcel build index.html"
   },
   "author": "github.com/luizdeveloperbr",

@@ -29,6 +29,7 @@
     </footer>
   </div>
 </div>
+<button class="button is-success is-small" @click="modalActive = true"><i class="material-icons">control_point</i></button>
 </div>
 </template>
 <script>
@@ -42,7 +43,8 @@ export default {
         mat:""}),
         methods: {
             addColab(){
-                return db.ref("setores" + this.rota).push({mat: this.mat,nome: this.nome, weeks: this.wadd})
+                this.modalActive = false
+                return db.ref("setores/" + this.rota).push({mat: this.mat,nome: this.nome, weeks: this.wadd})
             }
         },
     computed:{

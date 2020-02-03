@@ -1,7 +1,7 @@
 <!--Home.vue-->
 <template>
 <table class="table is-striped">
-<tr id="head-list">
+<tr id="head-list" class="has-text-centered">
   <td></td>
   <td></td>
   <td>Domingo</td>
@@ -15,7 +15,7 @@
   <td v-if="condFivDom">Domingo</td>
   <td v-if="condFivDom"></td>
 </tr>
-<tr id="head-list">
+<tr id="head-list" class="has-text-centered">
 	<td>Mat</td>
 	<td>Colaborador</td>
   	<td><domingo add-weeks="0" ref="D_1"></domingo></td>
@@ -106,4 +106,5 @@
 </script>
 <style>
 #list > td {padding: 0px}
+#head-list > td {text-align: center}
 </style>
