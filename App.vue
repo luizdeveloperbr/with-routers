@@ -111,7 +111,7 @@ export default {
             hora: "",
             rota: "",
             setor: "Selecionar...",
-            setores: ["horti-fruti", "peixaria", "fastfood"],
+            setores: ["f_loja", "peixaria", "fastfood"],
             mconfig: {
                 locale: Portuguese,
                 plugins: [new monthSelectPlugin({
