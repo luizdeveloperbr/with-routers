@@ -1,48 +1,51 @@
 <!--folga.vue-->
 <template>
-<div>
-	<fieldset   disabled v-if="active">
-		        <div class="flatpickr field has-addons">
-    <input class="input is-small" style="width: 60px;height: 36px" type="text" data-input> <!-- input is mandatory -->
-    <a class="button is-small control is-paddingless" title="clear" data-clear>
+<div class="main">
+    <flat-pickr class="input is-size-7" style="width: 70px;height: 36px" :config="config" v-model="input" :disabled="active"></flat-pickr>
+    <button type="button" class="button is-small is-paddingless" title="clear"  style="height: 36px" data-clear>
         <i class="material-icons has-text-primary">clear</i>
-    </a>
+    </button>
 </div>
-	</fieldset>
-	<fieldset  v-else>
-        <div class="flatpickr field has-addons">
-    <input class="input is-small" style="width: 60px;height: 36px" type="text" data-input> <!-- input is mandatory -->
-    <a class="button is-small control is-paddingless" title="clear" data-clear>
-        <i class="material-icons has-text-primary">clear</i>
-    </a>
-</div>
-	</fieldset>
-    </div>
 </template>
 <script>
+    //import flatPickr from 'vue-flatpickr-component'
     import moment from 'moment'
     import 'moment/locale/pt-br'
     import { Portuguese } from 'flatpickr/dist/l10n/pt.js'
     moment.locale('pt-br')
 	export default {
     name: 'folga',
-	props: ['getDate','getPrevFolg'],
+	props: ['getDate','getDom'],
     data: function(){
         return {
             input: "",
-            active: false
+            active: false,
+            config: {
+            wrap:true,
+            dateFormat: 'D,d/m',
+            minDate: moment(this.getDom, "DD/MM/YYYY").subtract(9, 'day').toDate(),
+            defaultDate: this.getDate,
+            maxDate: moment(this.getDom, "DD/MM/YYYY").add(9, 'day').toDate(),
+            locale: Portuguese
+            }
         }
     },
-   mounted() {
+  //  components:{
+   //     flatPickr
+   // }
+   /*created() {
                  let fp = document.getElementsByClassName('flatpickr');
          return flatpickr(fp,{
              wrap:true,
-             dateFormat: 'd/M',
+             dateFormat: 'D,d/m',
                 // minDate: moment(this.getDate, "DD/MMM").subtract(9, 'day').toDate(),
                 //defaultDate: this.getDate,
                 // maxDate: moment(this.getDate, "DD/MMM").add(9, 'day').toDate(),
             locale: Portuguese
              })
-    },
+    },*/
 }
 </script>
+<style lang="scss">
+    .main {display: inline-flex};
+</style>
