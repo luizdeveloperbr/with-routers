@@ -15,6 +15,7 @@
   "dependencies": {
     "bulma": "^0.7.5",
     "bulma-checkradio": "^1.1.1",
+    "bulma-switch": "^2.0.0",
     "firebase": "^7.7.0",
     "flatpickr": "^4.6.3",
     "moment": "^2.24.0",
