@@ -70,7 +70,6 @@
 <script>
 import "flatpickr/dist/plugins/monthSelect/style.css";
 const monthSelectPlugin = require("./node_modules/flatpickr/dist/plugins/monthSelect/index.js");
-//import flatPickr from 'vue-flatpickr-component'
 import "flatpickr/dist/flatpickr.css";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import moment from "moment";
@@ -79,22 +78,10 @@ moment.locale("pt-br");
 
 export default {
   name: "App",
-  methods: {
-    reload: function() {
-      return setTimeout(document.location.reload(), 2000);
-    }
-    /* addColab: function() {
-             return this.$pouchdbRefs.db.put( this.$route.query.setor, {mat: this.mat, nome: this.nome, weeks:this.wadd});
-         },*/
-    /* addTime: function() {
-             return this.$pouchdbRefs.db.put("horario", {cod: this.cod, hora: this.hora});
-         }*/
-  },
   computed: {
     inmes() {
       return moment(this.monthpick, "MMMM YYYY").format("MMMM");
     },
-    // retorna um Array com todos os domingos do ano, que é usado para adiçao no BD atraves de addColab/addTime
     validateDate: function() {
       var initDate = moment("Janeiro", "MMMM")
         .startOf("month")
@@ -128,16 +115,12 @@ export default {
       }
     };
   }
-  //    components: {
-  //        flatPickr
-  //    }
 };
 </script>
 <style lang="scss">
 @charset 'utf-8';
 $primary: hsl(1.5, 100%, 47.8%);
 @import "./node_modules/bulma/bulma.sass";
-@import "./node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass";
 .has-border {
   border-style: solid;
   border-radius: 10px;

@@ -16,7 +16,6 @@
           <a
             href="#"
             @click="
-              cod = t.cod;
               hora = t.hora;
             "
             >{{ t.hora }}</a
@@ -44,7 +43,6 @@ export default {
   },
   data: function() {
     return {
-      cod: null,
       hora: null,
       list: []
     };

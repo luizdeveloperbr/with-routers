@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mensal :id="rota" :get-date="$parent.monthpick" :disabled="edit"></mensal>
+    <mensal :id="rota" :get-date="$parent.monthpick" :disabled="editshow"></mensal>
     <div class="modal" :class="{ 'is-active': modalActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -66,13 +66,14 @@
         </footer>
       </div>
     </div>
-    <button class="button is-success is-small" @click="modalActive = true">
+
+    <div>
+        <button class="button is-success is-small" @click="modalActive = true">
       <i class="material-icons">control_point</i>
     </button>
     <a class="button is-small is-danger" @click="print"
       ><i class="material-icons">print</i></a
     >
-    <div>
       <input
         id="switch"
         v-model="edit"
@@ -122,17 +123,23 @@ export default {
       });
     },
     print() {
-      this.edit = true;
-      return setTimeout(function() {
-        window.print();
-      }, 2000);
+        this.edit = false
+        window.print()
     }
   },
 
   computed: {
     rota() {
-      var url = this.$parent.setor + "/" + this.$parent.inmes;
+     var url = this.$parent.setor + "/" + this.$parent.inmes;
+      //var url = this.$parent.setor + "/organico"
       return url.toLowerCase();
+    },
+        editshow() {
+      if (this.edit == true){
+          return false
+      } if (this.edit == false){
+          return true
+      }
     }
   },
   components: {
