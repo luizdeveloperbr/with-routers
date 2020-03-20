@@ -1,50 +1,22 @@
 <!-- timeEntrance -->
 <template>
-  <div class="dropdown is-hoverable">
-    <div class="dropdown-trigger has-addons">
-      <button
-        class="button"
-        aria-haspopup="true"
-        aria-controls="dropdown-menu3"
-      >
-        <span class="is-size-7">{{ hora }}</span>
-      </button>
-    </div>
-    <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-      <div class="dropdown-content">
-        <div class="dropdown-item" v-for="t in list">
-          <a
-            href="#"
-            @click="
-              hora = t.hora;
-            "
-            >{{ t.hora }}</a
-          >
-        </div>
-      </div>
-    </div>
-    <a
-      class="button is-paddingless is-small control"
-      v-bind:class="{ 'is-hidden': clear }"
-      style="height: 36px"
-      title="clear"
-      @click="hora = ''"
-      ><i class="material-icons has-text-primary">clear</i></a
-    >
-  </div>
+<div class="select is-small" :class="{'is-hidden': disable}">
+  <select v-bind:value="value" v-on:input="$emit('input', $event.target.value)">
+    <option v-for="h in list" :value="h.hora">{{h.hora}}</option>
+  </select>
+</div>
 </template>
 <script>
 import { db } from "../db.js";
 export default {
   name: "time-entrance",
-  props: ["timeList", "clear"],
+  props: ["value", "disable"],
   firebase: {
     list: db.ref("horarios")
   },
   data: function() {
     return {
-      hora: null,
-      list: []
+      list: [],
     };
   }
 };

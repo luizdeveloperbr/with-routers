@@ -1,7 +1,11 @@
 <template>
   <div>
-    <mensal :id="rota" :get-date="$parent.monthpick" :disabled="editshow"></mensal>
-    <div class="modal" :class="{ 'is-active': modalActive }">
+    <mensal
+      :id="rota"
+      :get-date="$parent.monthpick"
+      :disabled="editshow"
+    ></mensal>
+    <!--<div class="modal" :class="{ 'is-active': modalActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -30,34 +34,10 @@
               <input
                 class="input"
                 type="text"
-                placeholder="e.g Alex Smith"
+                placeholder="e.g sAlex Smith"
                 v-model="nome"
               />
             </div>
-          </div>
-          <div class="tabs is-centered is-boxed">
-            <ul>
-              <li class="is-active">
-                <a>
-                  Pictures
-                </a>
-              </li>
-              <li>
-                <a>
-                Music
-                </a>
-              </li>
-              <li>
-                <a>
-                  Videos
-                </a>
-              </li>
-              <li>
-                <a>
-                  Documents
-                </a>
-              </li>
-            </ul>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -65,15 +45,40 @@
           <button class="button">Limpar</button>
         </footer>
       </div>
-    </div>
+    </div>-->
+    <table>
+      <tr>
+        <td>
+          <input
+            class="input"
+            type="text"
+            placeholder="Matricula"
+            v-model="mat"
+          />
+        </td>
+        <td>
+          <input
+            class="input"
+            type="text"
+            placeholder="Nome do Colaborador"
+            v-model="nome"
+          />
+        </td>
+        <td><time-entrance v-model="d0_hora"></time-entrance></td>
+        <td>
+          <button class="button is-success" @click="addColab">Salvar</button>
+        </td>
+      </tr>
+    </table>
 
+    <!--table 2 -->
     <div>
-        <button class="button is-success is-small" @click="modalActive = true">
-      <i class="material-icons">control_point</i>
-    </button>
-    <a class="button is-small is-danger" @click="print"
-      ><i class="material-icons">print</i></a
-    >
+      <button class="button is-success is-small" @click="modalActive = true">
+        <i class="material-icons">control_point</i>
+      </button>
+      <a class="button is-small is-danger" @click="print"
+        ><i class="material-icons">print</i></a
+      >
       <input
         id="switch"
         v-model="edit"
@@ -90,6 +95,7 @@
 import { db } from "../db";
 import mensal from "./Mensalcomp.vue";
 import moment from "moment";
+import timeEntrance from "../components/timeEntrance.vue";
 export default {
   data: () => ({
     modalActive: false,
@@ -123,27 +129,29 @@ export default {
       });
     },
     print() {
-        this.edit = false
-        window.print()
+      this.edit = false;
+      window.print();
     }
   },
 
   computed: {
     rota() {
-     var url = this.$parent.setor + "/" + this.$parent.inmes;
+      var url = this.$parent.setor + "/" + this.$parent.inmes;
       //var url = this.$parent.setor + "/organico"
       return url.toLowerCase();
     },
-        editshow() {
-      if (this.edit == true){
-          return false
-      } if (this.edit == false){
-          return true
+    editshow() {
+      if (this.edit == true) {
+        return false;
+      }
+      if (this.edit == false) {
+        return true;
       }
     }
   },
   components: {
-    mensal
+    mensal,
+    timeEntrance
   }
 };
 </script>

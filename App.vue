@@ -61,7 +61,33 @@
       </div>
       <div class="panel-block">
         <div>
-          <router-view></router-view>
+          <!--<router-view></router-view>-->
+            <div>
+    <mensal
+      :id="grota"
+      :get-date="monthpick"
+      :disabled="editshow"
+    ></mensal>
+    <!--table 2 -->
+    <div>
+      <button class="button is-success is-small" @click="modalActive = true">
+        <i class="material-icons">control_point</i>
+      </button>
+      <a class="button is-small is-danger"
+        ><i class="material-icons">print</i></a
+      >
+      <input
+        id="switch"
+        v-model="edit"
+        type="checkbox"
+        name="switch"
+        class="switch is-rounded is-outlined"
+        checked="checked"
+      />
+      <label for="switch">Limpar</label>
+    </div>
+  </div>
+          <!--fim do router -->
         </div>
       </div>
     </div>
@@ -75,10 +101,49 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import moment from "moment";
 import "moment/locale/pt-br";
 moment.locale("pt-br");
+import { db } from "./db";
+import mensal from "./views/Mensalcomp.vue";
+import timeEntrance from "./components/timeEntrance.vue";
 
 export default {
   name: "App",
-  computed: {
+
+  //
+  data: function() {
+    return {
+    modalActive: false,
+      monthpick: moment(new Date()).format("MMMM YYYY"), //old
+      cod: 0,
+      hora: "",
+      rota: "",
+      edit: false,
+      setor: "",
+      setores: ["f_loja", "padaria", "fastfood", "peixaria"],
+      mconfig: {
+        locale: Portuguese,
+        plugins: [
+          new monthSelectPlugin({
+            dateFormat: "F Y"
+          })
+        ]
+      }
+    };
+  },
+    computed: {
+          grota: function() {
+      var url = this.setor + '/' + this.inmes;
+      //var url = this.$parent.setor + "/organico"
+      return url.toLowerCase();
+    },
+    editshow() {
+      if (this.edit == true) {
+        return false;
+      }
+      if (this.edit == false) {
+        return true;
+      }
+    },
+   //old
     inmes() {
       return moment(this.monthpick, "MMMM YYYY").format("MMMM");
     },
@@ -96,24 +161,9 @@ export default {
       }
     }
   },
-  //
-  data: function() {
-    return {
-      monthpick: moment(new Date()).format("MMMM YYYY"),
-      cod: 0,
-      hora: "",
-      rota: "",
-      setor: "",
-      setores: ["f_loja", "padaria", "fastfood", "peixaria"],
-      mconfig: {
-        locale: Portuguese,
-        plugins: [
-          new monthSelectPlugin({
-            dateFormat: "F Y"
-          })
-        ]
-      }
-    };
+    components: {
+    mensal,
+    timeEntrance
   }
 };
 </script>
@@ -121,6 +171,7 @@ export default {
 @charset 'utf-8';
 $primary: hsl(1.5, 100%, 47.8%);
 @import "./node_modules/bulma/bulma.sass";
+@import "./node_modules/bulma-switch";
 .has-border {
   border-style: solid;
   border-radius: 10px;

@@ -4,6 +4,7 @@
     <tr id="head-list" class="has-text-centered">
       <td></td>
       <td></td>
+      <td></td>
       <td>Domingo</td>
       <td></td>
       <td>Domingo</td>
@@ -16,8 +17,9 @@
       <td v-if="condFivDom"></td>
     </tr>
     <tr id="head-list" class="has-text-centered">
-      <td>Mat</td>
+      <td>Matricula</td>
       <td>Colaborador</td>
+      <td>Retorno</td>
       <td><domingo add-weeks="0" ref="D_1"></domingo></td>
       <td>folga</td>
       <td><domingo add-weeks="1" ref="D_2"></domingo></td>
@@ -32,8 +34,9 @@
     <tr v-for="colab in banco" id="list">
       <td style="padding-left: 5px!important">{{ colab.mat }}</td>
       <td style="padding-left: 5px!important">{{ colab.nome }}</td>
-      <td>
-        <time-entrance :clear="disabled"></time-entrance>
+      <td></td>
+      <td class="is-size-7" style="min-width: 160px">
+        {{ colab.domingos[0].hora }}
       </td>
       <td>
         <!-- data da folga -->
@@ -43,9 +46,10 @@
           :clear="disabled"
         ></folga>
       </td>
-      <td>
+      <td class="is-size-7" style="min-width: 160px">
         <!--dropdown para seleção dos horarios -->
-        <time-entrance :clear="disabled"></time-entrance>
+        <!--<time-entrance :clear="disabled"></time-entrance>-->
+        {{ colab.domingos[1].hora }}
       </td>
       <td>
         <folga
@@ -54,9 +58,9 @@
           :clear="disabled"
         ></folga>
       </td>
-      <td>
+      <td class="is-size-7" style="min-width: 160px">
         <!--dropdown para seleção dos horarios -->
-        <time-entrance :clear="disabled"></time-entrance>
+        {{ colab.domingos[2].hora }}
       </td>
       <td>
         <folga
@@ -65,9 +69,9 @@
           :clear="disabled"
         ></folga>
       </td>
-      <td>
+      <td class="is-size-7" style="min-width: 160px">
         <!--dropdown para seleção dos horarios -->
-        <time-entrance :clear="disabled"></time-entrance>
+        {{ colab.domingos[3].hora }}
       </td>
       <td>
         <folga
@@ -76,8 +80,8 @@
           :clear="disabled"
         ></folga>
       </td>
-      <td v-if="condFivDom">
-        <time-entrance :clear="disabled"></time-entrance>
+      <td class="is-size-7" style="min-width: 160px" v-if="condFivDom">
+        {{ colab.domingos[4].hora }}
       </td>
       <td v-if="condFivDom">
         <folga
@@ -85,6 +89,39 @@
           :get-dom="$refs.D_5.display"
           :clear="disabled"
         ></folga>
+      </td>
+    </tr>
+    <tr>
+      <!-- inicio input de entrada -->
+      <td>
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Matricula"
+          v-model="mat"
+        />
+      </td>
+      <td>
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Nome do Colaborador"
+          v-model="nome"
+        />
+      </td>
+      <td></td>
+      <td><time-entrance v-model="d0_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>folga</td>
+      <td><time-entrance v-model="d1_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>folga</td>
+      <td><time-entrance v-model="d2_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>folga</td>
+      <td><time-entrance v-model="d3_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>folga</td>
+      <td><time-entrance v-model="d4_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>folga</td>
+      <td>
+        <button class="button is-success" @click="addColab">Salvar</button>
       </td>
     </tr>
   </table>
@@ -103,10 +140,38 @@ export default {
   props: ["id", "getDate", "disabled"],
   data: function() {
     return {
-      banco: []
+      banco: [],
+      nome: "",
+      mat: "",
+      edit: false,
+      d0_hora: "",
+      d0_folga: "",
+      d1_hora: "",
+      d1_folga: "",
+      d2_hora: "",
+      d2_folga: "",
+      d3_hora: "",
+      d3_folga: "",
+      d4_hora: "",
+      d4_folga: ""
     };
   },
-
+  methods: {
+    addColab() {
+      this.modalActive = false;
+      return db.ref("setores/" + this.id).push({
+        mat: this.mat,
+        nome: this.nome,
+        domingos: [
+          { dia: this.d0_folga, hora: this.d0_hora },
+          { dia: this.d1_folga, hora: this.d1_hora },
+          { dia: this.d2_folga, hora: this.d2_hora },
+          { dia: this.d3_folga, hora: this.d3_hora },
+          { dia: this.d4_folga, hora: this.d4_hora }
+        ]
+      });
+    }
+  },
   computed: {
     condFivDom: function() {
       return (
