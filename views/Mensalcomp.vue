@@ -1,6 +1,6 @@
 <!--Home.vue-->
 <template>
-  <table class="table is-striped">
+  <table class="table is-bordered">
     <tr id="head-list" class="has-text-centered">
       <td></td>
       <td></td>
@@ -17,9 +17,9 @@
       <td v-if="condFivDom"></td>
     </tr>
     <tr id="head-list" class="has-text-centered">
-      <td>Matricula</td>
+      <td class="mat-ret">Matricula</td>
       <td>Colaborador</td>
-      <td>Retorno</td>
+      <td class="mat-ret">Retorno</td>
       <td><domingo add-weeks="0" ref="D_1"></domingo></td>
       <td>folga</td>
       <td><domingo add-weeks="1" ref="D_2"></domingo></td>
@@ -31,71 +31,50 @@
       <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
       <td v-if="condFivDom">folga</td>
     </tr>
-    <tr v-for="colab in banco" id="list">
-      <td style="padding-left: 5px!important">{{ colab.mat }}</td>
-      <td style="padding-left: 5px!important">{{ colab.nome }}</td>
+    <tr v-for="colab in banco">
+      <td>{{ colab.mat }}</td>
+      <td>{{ colab.nome }}</td>
       <td></td>
-      <td class="is-size-7" style="min-width: 160px">
+      <td class="is-size-7 has-text-centered">
         {{ colab.domingos[0].hora }}
       </td>
-      <td>
-        <!-- data da folga -->
-        <folga
-          :get-date="colab.domingos[0].dia"
-          :get-dom="$refs.D_1.display"
-          :clear="disabled"
-        ></folga>
+      <td class="is-size-7 has-text-centered">
+        {{ colab.domingos[0].dia }}
       </td>
-      <td class="is-size-7" style="min-width: 160px">
+      <td class="is-size-7 has-text-centered">
         <!--dropdown para seleção dos horarios -->
         <!--<time-entrance :clear="disabled"></time-entrance>-->
         {{ colab.domingos[1].hora }}
       </td>
-      <td>
-        <folga
-          :get-date="colab.domingos[1].dia"
-          :get-dom="$refs.D_2.display"
-          :clear="disabled"
-        ></folga>
+      <td class="is-size-7 has-text-centered">
+        {{ colab.domingos[1].dia }}
       </td>
-      <td class="is-size-7" style="min-width: 160px">
+      <td class="is-size-7 has-text-centered">
         <!--dropdown para seleção dos horarios -->
         {{ colab.domingos[2].hora }}
       </td>
-      <td>
-        <folga
-          :get-date="colab.domingos[2].dia"
-          :get-dom="$refs.D_3.display"
-          :clear="disabled"
-        ></folga>
+      <td class="is-size-7 has-text-centered">
+        {{ colab.domingos[2].dia }}
       </td>
-      <td class="is-size-7" style="min-width: 160px">
+      <td class="is-size-7 has-text-centered">
         <!--dropdown para seleção dos horarios -->
         {{ colab.domingos[3].hora }}
       </td>
-      <td>
-        <folga
-          :get-date="colab.domingos[3].dia"
-          :get-dom="$refs.D_4.display"
-          :clear="disabled"
-        ></folga>
+      <td class="is-size-7 has-text-centered">
+        {{ colab.domingos[3].dia }}
       </td>
-      <td class="is-size-7" style="min-width: 160px" v-if="condFivDom">
+      <td class="is-size-7 has-text-centered" v-if="condFivDom">
         {{ colab.domingos[4].hora }}
       </td>
-      <td v-if="condFivDom">
-        <folga
-          :get-date="colab.domingos[4].dia"
-          :get-dom="$refs.D_5.display"
-          :clear="disabled"
-        ></folga>
+      <td v-if="condFivDom" class="is-size-7 has-text-centered">
+        {{ colab.domingos[4].dia }}
       </td>
     </tr>
-    <tr>
+    <tr class="list" :class="{'is-hidden': $parent.edit}">
       <!-- inicio input de entrada -->
       <td>
         <input
-          class="input is-small"
+          class="input is-small is-focused"
           type="text"
           placeholder="Matricula"
           v-model="mat"
@@ -103,24 +82,53 @@
       </td>
       <td>
         <input
-          class="input is-small"
+          class="input is-small is-focused"
           type="text"
           placeholder="Nome do Colaborador"
           v-model="nome"
         />
       </td>
       <td></td>
-      <td><time-entrance v-model="d0_hora" :disable="$parent.edit"></time-entrance></td>
-      <td>folga</td>
-      <td><time-entrance v-model="d1_hora" :disable="$parent.edit"></time-entrance></td>
-      <td>folga</td>
-      <td><time-entrance v-model="d2_hora" :disable="$parent.edit"></time-entrance></td>
-      <td>folga</td>
-      <td><time-entrance v-model="d3_hora" :disable="$parent.edit"></time-entrance></td>
-      <td>folga</td>
-      <td><time-entrance v-model="d4_hora" :disable="$parent.edit"></time-entrance></td>
+      <td>
+        <time-entrance
+          v-model="d0_hora"
+        ></time-entrance>
+      </td>
+      <td>
+        <flat-pickr
+          class="input is-size-7 is-focused"
+          :config="config"
+          v-model="d0_folga"
+          style="width: 70px"
+        ></flat-pickr>
+      </td>
+      <td>
+        <time-entrance
+          v-model="d1_hora"
+        ></time-entrance>
+      </td>
       <td>folga</td>
       <td>
+        <time-entrance
+          v-model="d2_hora"
+        ></time-entrance>
+      </td>
+      <td>folga</td>
+      <td>
+        <time-entrance
+          v-model="d3_hora"
+        ></time-entrance>
+      </td>
+      <td>folga</td>
+      <td>
+        <time-entrance
+          v-model="d4_hora"
+        ></time-entrance>
+      </td>
+      <td>folga</td>
+      </tr>
+      <tr>
+      <td class="mat-ret">
         <button class="button is-success" @click="addColab">Salvar</button>
       </td>
     </tr>
@@ -131,6 +139,7 @@ import { db } from "../db";
 import moment from "moment";
 import "moment/locale/pt-br";
 moment.locale("pt-br");
+import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import folga from "../components/folga.vue";
 import domingo from "../components/domingo.vue";
 import timeEntrance from "../components/timeEntrance.vue";
@@ -153,7 +162,11 @@ export default {
       d3_hora: "",
       d3_folga: "",
       d4_hora: "",
-      d4_folga: ""
+      d4_folga: "",
+      config: {
+        dateFormat: "D,d/m",
+        locale: Portuguese
+      }
     };
   },
   methods: {
@@ -213,10 +226,14 @@ export default {
 };
 </script>
 <style>
-#list > td {
-  padding: 0px;
+.list > td {
+  padding: 5px !important;
 }
 #head-list > td {
   text-align: center;
+}
+.mat-ret {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
 }
 </style>

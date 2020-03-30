@@ -70,12 +70,7 @@
     ></mensal>
     <!--table 2 -->
     <div>
-      <button class="button is-success is-small" @click="modalActive = true">
-        <i class="material-icons">control_point</i>
-      </button>
-      <a class="button is-small is-danger"
-        ><i class="material-icons">print</i></a
-      >
+
       <input
         id="switch"
         v-model="edit"
