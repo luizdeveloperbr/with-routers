@@ -23,8 +23,7 @@ moment.locale('pt-br')
 		},
 		W: function()
 		{
-			var day = moment(this.iniDate).add(this.addWeeks, 'week').format('WW');
-			return Number(day-1)
+			return moment(this.iniDate).format('dddd')
 		}
 	}
 }

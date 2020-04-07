@@ -59,29 +59,28 @@
           </div>
         </div>
       </div>
-      <div class="panel-block">
+      <div class="panel-block" style="display: block!important">
         <div>
           <!--<router-view></router-view>-->
+          <div>
+            <mensal
+              :id="grota"
+              :get-date="monthpick"
+              :disabled="editshow"
+            ></mensal>
+            <!--table 2 -->
             <div>
-    <mensal
-      :id="grota"
-      :get-date="monthpick"
-      :disabled="editshow"
-    ></mensal>
-    <!--table 2 -->
-    <div>
-
-      <input
-        id="switch"
-        v-model="edit"
-        type="checkbox"
-        name="switch"
-        class="switch is-rounded is-outlined"
-        checked="checked"
-      />
-      <label for="switch">Limpar</label>
-    </div>
-  </div>
+              <input
+                id="switch"
+                v-model="edit"
+                type="checkbox"
+                name="switch"
+                class="switch is-rounded is-outlined"
+                checked="checked"
+              />
+              <label for="switch">Limpar</label>
+            </div>
+          </div>
           <!--fim do router -->
         </div>
       </div>
@@ -106,14 +105,14 @@ export default {
   //
   data: function() {
     return {
-    modalActive: false,
+      modalActive: false,
       monthpick: moment(new Date()).format("MMMM YYYY"), //old
       cod: 0,
       hora: "",
       rota: "",
       edit: false,
       setor: "",
-      setores: ["f_loja", "padaria", "fastfood", "peixaria"],
+      setores: ["f_loja", "padaria", "fastfood", "peixaria", "cpd"],
       mconfig: {
         locale: Portuguese,
         plugins: [
@@ -124,9 +123,9 @@ export default {
       }
     };
   },
-    computed: {
-          grota: function() {
-      var url = this.setor + '/' + this.inmes;
+  computed: {
+    grota: function() {
+      var url = this.setor + "/" + this.inmes;
       //var url = this.$parent.setor + "/organico"
       return url.toLowerCase();
     },
@@ -138,7 +137,7 @@ export default {
         return true;
       }
     },
-   //old
+    //old
     inmes() {
       return moment(this.monthpick, "MMMM YYYY").format("MMMM");
     },
@@ -156,7 +155,7 @@ export default {
       }
     }
   },
-    components: {
+  components: {
     mensal,
     timeEntrance
   }

@@ -1,7 +1,9 @@
 <!--Home.vue-->
 <template>
+<div  class="table-container">
   <table class="table is-bordered">
-    <tr id="head-list" class="has-text-centered">
+    <tr id="head-list" class="has-text-centered" >
+        <td :class="{ 'is-hidden': $parent.edit }"><p class="is-small">Excluir</p></td>
       <td></td>
       <td></td>
       <td></td>
@@ -17,6 +19,7 @@
       <td v-if="condFivDom"></td>
     </tr>
     <tr id="head-list" class="has-text-centered">
+        <td :class="{ 'is-hidden': $parent.edit }"><input type="checkbox" name="remove" v-model="rem" ></td>
       <td class="mat-ret">Matricula</td>
       <td>Colaborador</td>
       <td class="mat-ret">Retorno</td>
@@ -31,17 +34,18 @@
       <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
       <td v-if="condFivDom">folga</td>
     </tr>
-    <tr v-for="colab in banco">
-      <td>{{ colab.mat }}</td>
+    <tr v-for="(colab,index) in banco">
+          <td :class="{ 'is-hidden': $parent.edit }"><a class="button is-primary is-small" @click="remColab(colab['.key'])" v-show="rem"><i class="material-icons">clear</i></a></td>
+      <td>{{ colab.retorno }}</td>
       <td>{{ colab.nome }}</td>
-      <td></td>
-      <td class="is-size-7 has-text-centered">
+        <td><input type="text" v-model="updat" @change="fupdate(colab['.key'],index)"/></td>
+      <td class="has-text-centered hora">
         {{ colab.domingos[0].hora }}
       </td>
-      <td class="is-size-7 has-text-centered">
+      <td class="is-size-7 has-text-centered" >
         {{ colab.domingos[0].dia }}
       </td>
-      <td class="is-size-7 has-text-centered">
+      <td class="has-text-centered hora">
         <!--dropdown para seleção dos horarios -->
         <!--<time-entrance :clear="disabled"></time-entrance>-->
         {{ colab.domingos[1].hora }}
@@ -49,28 +53,29 @@
       <td class="is-size-7 has-text-centered">
         {{ colab.domingos[1].dia }}
       </td>
-      <td class="is-size-7 has-text-centered">
+      <td class="has-text-centered hora">
         <!--dropdown para seleção dos horarios -->
         {{ colab.domingos[2].hora }}
       </td>
       <td class="is-size-7 has-text-centered">
         {{ colab.domingos[2].dia }}
       </td>
-      <td class="is-size-7 has-text-centered">
+      <td class="has-text-centered hora">
         <!--dropdown para seleção dos horarios -->
         {{ colab.domingos[3].hora }}
       </td>
       <td class="is-size-7 has-text-centered">
         {{ colab.domingos[3].dia }}
       </td>
-      <td class="is-size-7 has-text-centered" v-if="condFivDom">
+      <td class="has-text-centered hora" v-if="condFivDom">
         {{ colab.domingos[4].hora }}
       </td>
       <td v-if="condFivDom" class="is-size-7 has-text-centered">
         {{ colab.domingos[4].dia }}
       </td>
     </tr>
-    <tr class="list" :class="{'is-hidden': $parent.edit}">
+    <tr class="list" :class="{ 'is-hidden': $parent.edit }">
+    <td></td>
       <!-- inicio input de entrada -->
       <td>
         <input
@@ -90,9 +95,7 @@
       </td>
       <td></td>
       <td>
-        <time-entrance
-          v-model="d0_hora"
-        ></time-entrance>
+        <time-entrance v-model="d0_hora"></time-entrance>
       </td>
       <td>
         <flat-pickr
@@ -103,36 +106,52 @@
         ></flat-pickr>
       </td>
       <td>
-        <time-entrance
-          v-model="d1_hora"
-        ></time-entrance>
+        <time-entrance v-model="d1_hora"></time-entrance>
       </td>
-      <td>folga</td>
+      <td><flat-pickr
+          class="input is-size-7 is-focused"
+          :config="config"
+          v-model="d1_folga"
+          style="width: 70px"
+        ></flat-pickr></td>
       <td>
-        <time-entrance
-          v-model="d2_hora"
-        ></time-entrance>
+        <time-entrance v-model="d2_hora"></time-entrance>
       </td>
-      <td>folga</td>
+      <td><flat-pickr
+          class="input is-size-7 is-focused"
+          :config="config"
+          v-model="d2_folga"
+          style="width: 70px"
+        ></flat-pickr></td>
       <td>
-        <time-entrance
-          v-model="d3_hora"
-        ></time-entrance>
+        <time-entrance v-model="d3_hora"></time-entrance>
       </td>
-      <td>folga</td>
-      <td>
-        <time-entrance
-          v-model="d4_hora"
-        ></time-entrance>
+      <td><flat-pickr
+          class="input is-size-7 is-focused"
+          :config="config"
+          v-model="d3_folga"
+          style="width: 70px"
+        ></flat-pickr></td>
+      <td v-if="condFivDom">
+        <time-entrance v-model="d4_hora"></time-entrance>
       </td>
-      <td>folga</td>
-      </tr>
-      <tr>
+      <td v-if="condFivDom"><flat-pickr
+          class="input is-size-7 is-focused"
+          :config="config"
+          v-model="d4_folga"
+          style="width: 70px"
+        ></flat-pickr></td>
+    </tr>
+    <tr :class="{ 'is-hidden': $parent.edit }">
       <td class="mat-ret">
         <button class="button is-success" @click="addColab">Salvar</button>
       </td>
+      <td class="mat-ret">
+        <button class="button is-primary" @click="clearAdd">Limpar</button>
+      </td>
     </tr>
   </table>
+  </div>
 </template>
 <script>
 import { db } from "../db";
@@ -153,6 +172,8 @@ export default {
       nome: "",
       mat: "",
       edit: false,
+      updat: "",
+      rem: false,
       d0_hora: "",
       d0_folga: "",
       d1_hora: "",
@@ -183,6 +204,31 @@ export default {
           { dia: this.d4_folga, hora: this.d4_hora }
         ]
       });
+    },
+    remColab(idColab){
+        this.$firebaseRefs.banco.child(idColab).remove()
+    },
+    fupdate(k,i){
+        var url = k + '/domingos/' + i
+        this.$firebaseRefs.banco.child(url).update({'hora': this.updat}/*{ 'retorno': this.updat }*/).then(() => {
+  console.log('user updated!')
+})
+
+    },
+    clearAdd(){
+        this.mat = ""
+        this.nome = ""
+        this.d0_folga = ""
+        this.d0_hora = ""
+        this.d1_folga = ""
+        this.d1_hora = ""
+        this.d2_folga = ""
+        this.d2_hora = ""
+        this.d3_folga = ""
+        this.d3_hora = ""
+        this.d4_folga = ""
+        this.d4_hora = ""
+        return console.log('Dados Apagados')
     }
   },
   computed: {
@@ -226,6 +272,7 @@ export default {
 };
 </script>
 <style>
+.hora {padding-left: 0px!important; padding-right: 0px!important; max-width: 130px }
 .list > td {
   padding: 5px !important;
 }
