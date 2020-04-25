@@ -27,18 +27,22 @@
         <td class="mat-ret">Matricula</td>
         <td>Colaborador</td>
         <td class="mat-ret">Retorno</td>
-        <td><domingo add-weeks="0" ref="D_1"></domingo></td>
+        <td><domingo add-weeks="0"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="1" ref="D_2"></domingo></td>
+        <td><domingo add-weeks="1"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="2" ref="D_3"></domingo></td>
+        <td><domingo add-weeks="2"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="3" ref="D_4"></domingo></td>
+        <td><domingo add-weeks="3"></domingo></td>
         <td>folga</td>
-        <td v-show="condFivDom"><domingo add-weeks="4" ref="D_5"></domingo></td>
+        <td v-show="condFivDom"><domingo add-weeks="4"></domingo></td>
         <td v-if="condFivDom">folga</td>
       </tr>
-      <tr v-for="(colab, index) in banco" :class="{ 'is-selected': rem }">
+      <tr
+        v-for="colab in banco"
+        :class="{ 'is-selected': colab.edit }"
+        :key="colab.id"
+      >
         <td :class="{ 'is-hidden': $parent.edit }">
           <a
             class="button is-primary is-small"
@@ -46,109 +50,108 @@
             v-show="rem"
             ><i class="material-icons">clear</i></a
           >
+          <a
+            class="button is-success is-small"
+            @click="
+              editColab(colab.edit, colab['.key'])
+            "
+            v-show="rem"
+            ><i class="material-icons">edit</i></a
+          >
         </td>
         <td>{{ colab.mat }}</td>
         <td>{{ colab.nome }}</td>
         <td>
-          <!-- <input
-            type="text"
-            v-model="updat"
-            @change="fupdate(colab['.key'], index)"
-          />-->
+          <folgaw></folgaw>
         </td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d0_hora"
             @input="update_d0_hora(colab['.key'], 0)"
-            v-if="rem"
+            v-if="colab.edit"
+            :get-value="colab.domingos[0].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[0].hora }}</span>
         </td>
-        <td class="is-size-7 has-text-centered">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
+        <td class="dia has-text-centered">
+          <folga
             v-model="d0_folga"
-            style="width: 70px"
-            @on-change="update_d0_dia(colab['.key'], 0)"
-            v-if="rem"
-          ></flat-pickr>
+            @input="update_d0_dia(colab['.key'], 0)"
+            v-if="colab.edit"
+            :get-value="colab.domingos[0].dia"
+          ></folga>
           <span v-else>{{ colab.domingos[0].dia }}</span>
         </td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d1_hora"
             @input="update_d1_hora(colab['.key'], 1)"
-            v-if="rem"
+            v-if="colab.edit"
+            :get-value="colab.domingos[1].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[1].hora }}</span>
         </td>
-        <td class="is-size-7 has-text-centered">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
+        <td class="dia has-text-centered">
+          <folga
             v-model="d1_folga"
-            style="width: 70px"
-            @on-change="update_d1_dia(colab['.key'], 1)"
-            v-if="rem"
-          ></flat-pickr>
+            @input="update_d1_dia(colab['.key'], 1)"
+            v-if="colab.edit"
+            :get-value="colab.domingos[1].dia"
+          ></folga>
           <span v-else>{{ colab.domingos[1].dia }}</span>
         </td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d2_hora"
             @input="update_d2_hora(colab['.key'], 2)"
-            v-if="rem"
+            v-if="colab.edit"
+            :get-value="colab.domingos[2].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[2].hora }}</span>
         </td>
-        <td class="is-size-7 has-text-centered">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
+        <td class="dia has-text-centered">
+          <folga
             v-model="d2_folga"
-            style="width: 70px"
-            @on-change="update_d2_dia(colab['.key'], 2)"
-            v-if="rem"
-          ></flat-pickr>
+            @input="update_d2_dia(colab['.key'], 2)"
+            v-if="colab.edit"
+            :get-value="colab.domingos[2].dia"
+          ></folga>
           <span v-else>{{ colab.domingos[2].dia }}</span>
         </td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d3_hora"
             @input="update_d3_hora(colab['.key'], 3)"
-            v-if="rem"
+            v-if="colab.edit"
+            :get-value="colab.domingos[3].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[3].hora }}</span>
         </td>
-        <td class="is-size-7 has-text-centered">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
+        <td class="dia has-text-centered">
+          <folga
             v-model="d3_folga"
-            style="width: 70px"
-            @on-change="update_d3_dia(colab['.key'], 3)"
-            v-if="rem"
-          ></flat-pickr>
+            @input="update_d3_dia(colab['.key'], 3)"
+            v-if="colab.edit"
+            :get-value="colab.domingos[3].dia"
+          ></folga>
           <span v-else>{{ colab.domingos[3].dia }}</span>
         </td>
         <td class="has-text-centered hora" v-if="condFivDom">
           <time-entrance
             v-model="d4_hora"
             @input="update_d4_hora(colab['.key'], 4)"
-            v-if="rem"
+            v-if="colab.edit"
+            :get-value="colab.domingos[4].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[4].hora }}</span>
         </td>
-        <td v-if="condFivDom" class="is-size-7 has-text-centered">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
-            v-model="d0_folga"
-            style="width: 70px"
-            @on-change="update_d4_dia(colab['.key'], 4)"
-            v-if="rem"
-          ></flat-pickr>
+        <td v-if="condFivDom" class="dia has-text-centered">
+          <folga
+            v-model="d4_folga"
+            @input="update_d4_dia(colab['.key'], 4)"
+            v-if="colab.edit"
+            :get-value="colab.domingos[4].dia"
+          ></folga>
           <span v-else>{{ colab.domingos[4].dia }}</span>
         </td>
       </tr>
@@ -176,12 +179,9 @@
           <time-entrance v-model="d0_hora"></time-entrance>
         </td>
         <td>
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
+           <folga
             v-model="d0_folga"
-            style="width: 70px"
-          ></flat-pickr>
+          ></folga>
         </td>
         <td>
           <time-entrance v-model="d1_hora"></time-entrance>
@@ -298,6 +298,15 @@ export default {
     remColab(idColab) {
       this.$firebaseRefs.banco.child(idColab).remove();
     },
+    editColab(idcol, coladKey){
+        //var check = this.$rtdbBind('edit', setores.child(this.$props.id + idcol + '/edit'))
+        if (idcol == true){
+         this.$firebaseRefs.banco.child(coladKey).update({'edit': false})
+        }else{
+        this.$firebaseRefs.banco.child(coladKey).update({'edit': true})
+        }
+        return console.log('changed')
+    },
     // funçoes de update hora
     update_d0_hora(k, i) {
       var url = k + "/domingos/" + i;
@@ -385,7 +394,7 @@ export default {
   components: {
     folga,
     domingo,
-    timeEntrance
+    timeEntrance,
   },
   watch: {
     id: {
@@ -401,7 +410,12 @@ export default {
 .hora {
   padding-left: 0px !important;
   padding-right: 0px !important;
-  max-width: 150px;
+  
+}
+.dia {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  width: 70px;
 }
 .list > td {
   padding: 5px !important;

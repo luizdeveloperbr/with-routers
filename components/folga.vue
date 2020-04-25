@@ -1,56 +1,63 @@
 <!--folga.vue-->
 <template>
-  <div class="main">
-    <flat-pickr
+  <div class="flatpickr">
+    <input
+      type="text"
+      v-bind:value="value"
+      :placeholder="getValue"
       class="input is-size-7"
-      style="width: 70px;height: 36px"
-      :config="config"
-      v-model="input"
-      :disabled="active"
-    ></flat-pickr>
-    <button
-      type="button"
-      class="button is-small is-paddingless"
-      title="clear"
-      :class="{ 'is-hidden': clear }"
-      style="height: 36px"
-      data-clear
-    >
-      <i class="material-icons has-text-primary">clear</i>
-    </button>
+      @input="$emit('input', $event.target.value)"
+      data-input
+    />
   </div>
 </template>
 <script>
-//import flatPickr from 'vue-flatpickr-component'
+import flatpickr from "flatpickr";
 import moment from "moment";
 import "moment/locale/pt-br";
 import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 moment.locale("pt-br");
 export default {
   name: "folga",
-  props: ["getDate", "getDom", "clear"],
-  data: function() {
+  props: ["value", "getValue"],
+  beforeMount() {
+    this.defaultDate = this.getValue
+},
+mounted() {
+    flatpickr(document.getElementsByClassName("flatpickr"), this.$data);
+  },
+  data() {
     return {
-      input: "",
-      active: false,
-      config: {
         wrap: true,
         dateFormat: "D,d/m",
-        minDate: moment(this.getDom, "DD/MM/YYYY")
+        minDate: moment(this.defaultDate)
           .subtract(9, "day")
           .toDate(),
-        defaultDate: this.getDate,
-        maxDate: moment(this.getDom, "DD/MM/YYYY")
+        defaultDate: "",
+        maxDate: moment(this.defaultDate)
           .add(9, "day")
           .toDate(),
         locale: Portuguese
-      }
     };
-  }
+  },
+/* watch: {
+      getValue(){
+          this.defaultDate = moment(this.getValue, 'ddd,DD/MM').toDate()
+          this.maxDate = moment(this.defaultDate)
+          .add(9, "day")
+          .toDate()
+          this.minDate = moment(this.defaultDate)
+          .subtract(9, "day")
+          .toDate()
+      }
+  },*/
 };
 </script>
-<style lang="scss">
-.main {
-  display: inline-flex;
+<style>
+.input::placeholder {
+  color: black !important;
+}
+.input {
+  min-width: 75px !important;
 }
 </style>

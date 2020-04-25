@@ -1,7 +1,7 @@
 <!-- timeEntrance -->
 <template>
-<div class="select is-small" :class="{'is-hidden': disable}">
-  <select v-bind:value="value" class="is-focused" v-on:input="$emit('input', $event.target.value)">
+<div class="select is-small" >
+  <select v-bind:value="value" class="is-focused" v-on:input="$emit('input', $event.target.value)" v-model="ipt">
     <option v-for="h in list" :value="h.hora">{{h.hora}}</option>
   </select>
 </div>
@@ -10,12 +10,13 @@
 import { db } from "../db.js";
 export default {
   name: "time-entrance",
-  props: ["value", "disable"],
+  props: ["value", "getValue"],
   firebase: {
     list: db.ref("horarios")
   },
   data: function() {
     return {
+        ipt: this.getValue,
       list: [],
     };
   }
