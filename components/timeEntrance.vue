@@ -12,7 +12,7 @@ export default {
   name: "time-entrance",
   props: ["value", "getValue"],
   firebase: {
-    list: db.ref("horarios")
+    list: db.ref("horarios/master")
   },
   data: function() {
     return {

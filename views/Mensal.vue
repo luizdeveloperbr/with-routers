@@ -1,7 +1,7 @@
 <template>
   <div>
     <mensal
-      :id="rota"
+      :id="$parent.grota"
       :get-date="$parent.monthpick"
       :disabled="editshow"
     ></mensal>
@@ -45,7 +45,7 @@
           <button class="button">Limpar</button>
         </footer>
       </div>
-    </div>-->
+    </div>
     <table>
       <tr>
         <td>
@@ -71,7 +71,7 @@
       </tr>
     </table>
 
-    <!--table 2 -->
+    table 2
     <div>
       <button class="button is-success is-small" @click="modalActive = true">
         <i class="material-icons">control_point</i>
@@ -88,71 +88,24 @@
         checked="checked"
       />
       <label for="switch">Limpar</label>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
 import { db } from "../db";
 import mensal from "./Mensalcomp.vue";
-import moment from "moment";
-import timeEntrance from "../components/timeEntrance.vue";
+//import moment from "moment";
+//import timeEntrance from "../components/timeEntrance.vue";
 export default {
-  data: () => ({
-    modalActive: false,
-    nome: "",
-    mat: "",
-    edit: false,
-    d0_hora: "",
-    d0_folga: "",
-    d1_hora: "",
-    d1_folga: "",
-    d2_hora: "",
-    d2_folga: "",
-    d3_hora: "",
-    d3_folga: "",
-    d4_hora: "",
-    d4_folga: ""
-  }),
-  methods: {
-    addColab() {
-      this.modalActive = false;
-      return db.ref("setores/" + this.rota).push({
-        mat: this.mat,
-        nome: this.nome,
-        domingos: [
-          { dia: this.d0_folga, hora: this.d0_hora },
-          { dia: this.d1_folga, hora: this.d1_hora },
-          { dia: this.d2_folga, hora: this.d2_hora },
-          { dia: this.d3_folga, hora: this.d3_hora },
-          { dia: this.d4_folga, hora: this.d4_hora }
-        ]
-      });
+    name: 'mensalTop',
+    computed: {
+        rota(){
+            this.$parent.grota
+        }
     },
-    print() {
-      this.edit = false;
-      window.print();
+    components:{
+        mensal
     }
-  },
-
-  computed: {
-    rota() {
-      var url = this.$parent.setor + "/" + this.$parent.inmes;
-      //var url = this.$parent.setor + "/organico"
-      return url.toLowerCase();
-    },
-    editshow() {
-      if (this.edit == true) {
-        return false;
-      }
-      if (this.edit == false) {
-        return true;
-      }
-    }
-  },
-  components: {
-    mensal,
-    timeEntrance
-  }
 };
 </script>
 <style lang="scss">

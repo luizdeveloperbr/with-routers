@@ -1,6 +1,27 @@
 <!--<app />-->
 <template>
   <div>
+    <nav class="navbar is-dark">
+      <div class="navbar-start">
+        <router-link class="navbar-item" to="/">Mensal</router-link>
+
+        <router-link class="navbar-item" to="interjornada"
+          >Interjornada</router-link
+        >
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button">
+              Horarios
+            </a>
+            <a class="button" @click="modalActive = true">
+              Orgânico
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <div class="panel" style="margin:20px">
       <div class="panel-heading">
         <div class="level">
@@ -61,28 +82,48 @@
       </div>
       <div class="panel-block" style="display: block!important">
         <div>
-          <!--<router-view></router-view>-->
-          <div>
-            <mensal
-              :id="grota"
-              :get-date="monthpick"
-              :disabled="editshow"
-            ></mensal>
-            <!--table 2 -->
-            <div>
-              <input
-                id="switch"
-                v-model="edit"
-                type="checkbox"
-                name="switch"
-                class="switch is-rounded is-outlined"
-                checked="checked"
-              />
-              <label for="switch">Limpar</label>
-            </div>
-          </div>
+          <router-view></router-view>
           <!--fim do router -->
         </div>
+      </div>
+    </div>
+    <div class="modal" :class="{ 'is-active': modalActive }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Orgânico</p>
+          <button
+            class="delete"
+            @click="modalActive = false"
+            aria-label="close"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <div class="control">
+              <input
+                type="text"
+                class="input"
+                placeholder="Matricula"
+                v-model="mat"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input
+                type="text"
+                class="input"
+                placeholder="Nome do Colaborador"
+                v-model="nome"
+              />
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" @click="addColab">Salvar</button>
+          <button class="button is-danger">Limpar</button>
+        </footer>
       </div>
     </div>
   </div>
@@ -108,6 +149,8 @@ export default {
       modalActive: false,
       monthpick: moment(new Date()).format("MMMM YYYY"), //old
       cod: 0,
+      mat: "",
+      nome: "",
       hora: "",
       rota: "",
       edit: false,
@@ -155,9 +198,18 @@ export default {
       }
     }
   },
-  components: {
-    mensal,
-    timeEntrance
+  methods: {
+    addColab() {
+      this.modalActive = false;
+      const obj = { dia: "", hora: "" };
+      return db.ref("escalas/" + this.grota).push({
+        mat: this.mat,
+        nome: this.nome,
+        edit: false,
+        domingos: [obj, obj, obj, obj, obj]
+      });
+      //.then(this.clearAdd());
+    }
   }
 };
 </script>

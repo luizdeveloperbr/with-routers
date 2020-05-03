@@ -3,9 +3,7 @@
   <div class="table-container">
     <table class="table is-bordered">
       <tr id="head-list" class="has-text-centered">
-        <td :class="{ 'is-hidden': $parent.edit }">
-          Excluir
-        </td>
+        <td :class="{ 'is-hidden': $parent.edit }" style="padding: 0px!important"></td>
         <td></td>
         <td></td>
         <td></td>
@@ -21,8 +19,9 @@
         <td v-if="condFivDom"></td>
       </tr>
       <tr id="head-list" class="has-text-centered">
-        <td :class="{ 'is-hidden': $parent.edit }">
-          <input type="checkbox" name="remove" v-model="rem" />
+        <td :class="{ 'is-hidden': $parent.edit }" style="padding: 0px!important">
+        <!--<input type="checkbox" v-model="edit" name="editt"/>
+        <label for="editt">Editar</label>-->
         </td>
         <td class="mat-ret">Matricula</td>
         <td>Colaborador</td>
@@ -41,28 +40,26 @@
       <tr
         v-for="colab in banco"
         :class="{ 'is-selected': colab.edit }"
-        :key="colab.id"
       >
-        <td :class="{ 'is-hidden': $parent.edit }">
+        <td style="padding:8px 0px!important; min-width: 88px">
+        <div class="buttons has-addons">
           <a
             class="button is-primary is-small"
             @click="remColab(colab['.key'])"
-            v-show="rem"
+            v-show="edit"
             ><i class="material-icons">clear</i></a
           >
           <a
             class="button is-success is-small"
-            @click="
-              editColab(colab.edit, colab['.key'])
-            "
-            v-show="rem"
+            @click="editColab(colab.edit, colab['.key'])"
+            v-show="edit"
             ><i class="material-icons">edit</i></a
           >
+          </div>
         </td>
         <td>{{ colab.mat }}</td>
         <td>{{ colab.nome }}</td>
         <td>
-          <folgaw></folgaw>
         </td>
         <td class="has-text-centered hora">
           <time-entrance
@@ -155,87 +152,7 @@
           <span v-else>{{ colab.domingos[4].dia }}</span>
         </td>
       </tr>
-      <tr class="list" :class="{ 'is-hidden': $parent.edit }">
-        <td></td>
-        <!-- inicio input de entrada -->
-        <td>
-          <input
-            class="input is-small is-focused"
-            type="text"
-            placeholder="Matricula"
-            v-model="mat"
-          />
-        </td>
-        <td>
-          <input
-            class="input is-small is-focused"
-            type="text"
-            placeholder="Nome do Colaborador"
-            v-model="nome"
-          />
-        </td>
-        <td></td>
-        <td>
-          <time-entrance v-model="d0_hora"></time-entrance>
-        </td>
-        <td>
-           <folga
-            v-model="d0_folga"
-          ></folga>
-        </td>
-        <td>
-          <time-entrance v-model="d1_hora"></time-entrance>
-        </td>
-        <td>
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
-            v-model="d1_folga"
-            style="width: 70px"
-          ></flat-pickr>
-        </td>
-        <td>
-          <time-entrance v-model="d2_hora"></time-entrance>
-        </td>
-        <td>
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
-            v-model="d2_folga"
-            style="width: 70px"
-          ></flat-pickr>
-        </td>
-        <td>
-          <time-entrance v-model="d3_hora"></time-entrance>
-        </td>
-        <td>
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
-            v-model="d3_folga"
-            style="width: 70px"
-          ></flat-pickr>
-        </td>
-        <td v-if="condFivDom">
-          <time-entrance v-model="d4_hora"></time-entrance>
-        </td>
-        <td v-if="condFivDom">
-          <flat-pickr
-            class="input is-size-7 is-focused"
-            :config="config"
-            v-model="d4_folga"
-            style="width: 70px"
-          ></flat-pickr>
-        </td>
-      </tr>
-      <tr :class="{ 'is-hidden': $parent.edit }">
-        <td class="mat-ret">
-          <button class="button is-success" @click="addColab">Salvar</button>
-        </td>
-        <td class="mat-ret">
-          <button class="button is-primary" @click="clearAdd">Limpar</button>
-        </td>
-      </tr>
+      
     </table>
   </div>
 </template>
@@ -248,7 +165,7 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import folga from "../components/folga.vue";
 import domingo from "../components/domingo.vue";
 import timeEntrance from "../components/timeEntrance.vue";
-const setores = db.ref("setores");
+const setores = db.ref("escalas");
 export default {
   name: "mensal",
   props: ["id", "getDate", "disabled"],
@@ -280,7 +197,7 @@ export default {
     addColab() {
       this.modalActive = false;
       return db
-        .ref("setores/" + this.id)
+        .ref("escalas/" + this.id)
         .push({
           mat: this.mat,
           nome: this.nome,

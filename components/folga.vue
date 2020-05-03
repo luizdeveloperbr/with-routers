@@ -20,37 +20,13 @@ moment.locale("pt-br");
 export default {
   name: "folga",
   props: ["value", "getValue"],
-  beforeMount() {
-    this.defaultDate = this.getValue
-},
-mounted() {
-    flatpickr(document.getElementsByClassName("flatpickr"), this.$data);
+  mounted() {
+    flatpickr(document.getElementsByClassName("flatpickr"), {
+         wrap: true,
+      dateFormat: "D,d/m",
+      locale: Portuguese
+    });
   },
-  data() {
-    return {
-        wrap: true,
-        dateFormat: "D,d/m",
-        minDate: moment(this.defaultDate)
-          .subtract(9, "day")
-          .toDate(),
-        defaultDate: "",
-        maxDate: moment(this.defaultDate)
-          .add(9, "day")
-          .toDate(),
-        locale: Portuguese
-    };
-  },
-/* watch: {
-      getValue(){
-          this.defaultDate = moment(this.getValue, 'ddd,DD/MM').toDate()
-          this.maxDate = moment(this.defaultDate)
-          .add(9, "day")
-          .toDate()
-          this.minDate = moment(this.defaultDate)
-          .subtract(9, "day")
-          .toDate()
-      }
-  },*/
 };
 </script>
 <style>
