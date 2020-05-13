@@ -106,9 +106,9 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import folga from "../components/folga.vue";
 import sabado from "../components/sabado.vue";
 import timeEntrance from "../components/timeEntrance.vue";
-const setores = db.ref("escalas");
+const setores = db.ref("interjornada");
 export default {
-  name: "mensal",
+  name: "interjornada",
   props: ["getDate", "disabled"],
   data: function() {
     return {
@@ -226,8 +226,8 @@ export default {
   },
   computed: {
       id(){
-          const i = this.$route.query.setor + '/' + this.$route.query.mes
-          return i
+          //const i = this.$route.query.setor + '/' + this.$route.query.mes
+          return this.$parent.grota
       },
     condFivDom: function() {
       return (

@@ -3,7 +3,7 @@
   <div class="table-container">
     <table class="table is-bordered">
       <tr id="head-list" class="has-text-centered">
-        <td :class="{ 'is-hidden': $parent.edit }" style="padding: 0px!important"></td>
+        <td>Editar</td>
         <td></td>
         <td></td>
         <td></td>
@@ -19,9 +19,8 @@
         <td v-if="condFivDom"></td>
       </tr>
       <tr id="head-list" class="has-text-centered">
-        <td :class="{ 'is-hidden': $parent.edit }" style="padding: 0px!important">
-        <!--<input type="checkbox" v-model="edit" name="editt"/>
-        <label for="editt">Editar</label>-->
+        <td>
+          <input type="checkbox" v-model="edit" />
         </td>
         <td class="mat-ret">Matricula</td>
         <td>Colaborador</td>
@@ -37,35 +36,32 @@
         <td v-show="condFivDom"><domingo add-weeks="4"></domingo></td>
         <td v-if="condFivDom">folga</td>
       </tr>
-      <tr
-        v-for="colab in banco"
-        :class="{ 'is-selected': colab.edit }"
-      >
-        <td style="padding:8px 0px!important; min-width: 88px">
-        <div class="buttons has-addons">
-          <a
-            class="button is-primary is-small"
-            @click="remColab(colab['.key'])"
-            v-show="edit"
-            ><i class="material-icons">clear</i></a
-          >
-          <a
-            class="button is-success is-small"
-            @click="editColab(colab.edit, colab['.key'])"
-            v-show="edit"
-            ><i class="material-icons">edit</i></a
-          >
+      <tr v-for="colab in banco" :class="{ 'is-selected': colab.edit }">
+        <td style="padding:8px 0px!important; min-width: 100px">
+          <div class="buttons has-addons">
+            <a
+              class="button is-rounded is-primary is-small"
+              @click="remColab(colab['.key'])"
+              v-show="edit"
+              ><i class="material-icons">clear</i></a
+            >
+            <a
+              class="button is-rounded is-success is-small"
+              @click="editColab(colab.edit, colab['.key'])"
+              v-show="edit"
+              ><i class="material-icons">edit</i></a
+            >
           </div>
         </td>
         <td>{{ colab.mat }}</td>
         <td>{{ colab.nome }}</td>
-        <td>
-        </td>
+        <td></td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d0_hora"
             @input="update_d0_hora(colab['.key'], 0)"
             v-if="colab.edit"
+            :setor="setor"
             :get-value="colab.domingos[0].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[0].hora }}</span>
@@ -84,6 +80,7 @@
             v-model="d1_hora"
             @input="update_d1_hora(colab['.key'], 1)"
             v-if="colab.edit"
+            :setor="setor"
             :get-value="colab.domingos[1].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[1].hora }}</span>
@@ -102,6 +99,7 @@
             v-model="d2_hora"
             @input="update_d2_hora(colab['.key'], 2)"
             v-if="colab.edit"
+            :setor="setor"
             :get-value="colab.domingos[2].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[2].hora }}</span>
@@ -120,6 +118,7 @@
             v-model="d3_hora"
             @input="update_d3_hora(colab['.key'], 3)"
             v-if="colab.edit"
+            :setor="setor"
             :get-value="colab.domingos[3].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[3].hora }}</span>
@@ -138,6 +137,7 @@
             v-model="d4_hora"
             @input="update_d4_hora(colab['.key'], 4)"
             v-if="colab.edit"
+            :setor="setor"
             :get-value="colab.domingos[4].hora"
           ></time-entrance>
           <span v-else>{{ colab.domingos[4].hora }}</span>
@@ -152,7 +152,6 @@
           <span v-else>{{ colab.domingos[4].dia }}</span>
         </td>
       </tr>
-      
     </table>
   </div>
 </template>
@@ -165,10 +164,10 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import folga from "../components/folga.vue";
 import domingo from "../components/domingo.vue";
 import timeEntrance from "../components/timeEntrance.vue";
-const setores = db.ref("escalas");
+const setores = db.ref("mensal");
 export default {
   name: "mensal",
-  props: ["id", "getDate", "disabled"],
+  props: ["id", "getDate", "setor"],
   data: function() {
     return {
       banco: [],
@@ -176,7 +175,7 @@ export default {
       mat: "",
       edit: false,
       updat: "",
-      rem: false,
+      setor: this.setor,
       d0_hora: "",
       d0_folga: "",
       d1_hora: "",
@@ -215,14 +214,14 @@ export default {
     remColab(idColab) {
       this.$firebaseRefs.banco.child(idColab).remove();
     },
-    editColab(idcol, coladKey){
-        //var check = this.$rtdbBind('edit', setores.child(this.$props.id + idcol + '/edit'))
-        if (idcol == true){
-         this.$firebaseRefs.banco.child(coladKey).update({'edit': false})
-        }else{
-        this.$firebaseRefs.banco.child(coladKey).update({'edit': true})
-        }
-        return console.log('changed')
+    editColab(idcol, coladKey) {
+      //var check = this.$rtdbBind('edit', setores.child(this.$props.id + idcol + '/edit'))
+      if (idcol == true) {
+        this.$firebaseRefs.banco.child(coladKey).update({ edit: false });
+      } else {
+        this.$firebaseRefs.banco.child(coladKey).update({ edit: true });
+      }
+      return console.log("changed");
     },
     // funçoes de update hora
     update_d0_hora(k, i) {
@@ -311,7 +310,7 @@ export default {
   components: {
     folga,
     domingo,
-    timeEntrance,
+    timeEntrance
   },
   watch: {
     id: {
@@ -327,7 +326,6 @@ export default {
 .hora {
   padding-left: 0px !important;
   padding-right: 0px !important;
-  
 }
 .dia {
   padding-left: 6px !important;

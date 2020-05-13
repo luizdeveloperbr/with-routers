@@ -3,7 +3,7 @@
     <mensal
       :id="$parent.grota"
       :get-date="$parent.monthpick"
-      :disabled="editshow"
+      :setor="$parent.setor"
     ></mensal>
     <!--<div class="modal" :class="{ 'is-active': modalActive }">
       <div class="modal-background"></div>
@@ -97,15 +97,15 @@ import mensal from "./Mensalcomp.vue";
 //import moment from "moment";
 //import timeEntrance from "../components/timeEntrance.vue";
 export default {
-    name: 'mensalTop',
-    computed: {
-        rota(){
-            this.$parent.grota
-        }
-    },
-    components:{
-        mensal
+  name: "mensalTop",
+  computed: {
+    rota() {
+      this.$parent.grota;
     }
+  },
+  components: {
+    mensal
+  }
 };
 </script>
 <style lang="scss">

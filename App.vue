@@ -3,16 +3,28 @@
   <div>
     <nav class="navbar is-dark">
       <div class="navbar-start">
-        <router-link class="navbar-item" to="/">Mensal</router-link>
+        <div class="navbar-item">
+          <div class="buttons">
+            <router-link
+              class="button"
+              exact-active-class="is-primary"
+              to="mensal"
+              >Mensal</router-link
+            >
 
-        <router-link class="navbar-item" to="interjornada"
-          >Interjornada</router-link
-        >
+            <router-link
+              class="button"
+              exact-active-class="is-primary"
+              to="interjornada"
+              >Interjornada</router-link
+            >
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button">
+            <a class="button" @click="mHorarios = true">
               Horarios
             </a>
             <a class="button" @click="modalActive = true">
@@ -87,6 +99,7 @@
         </div>
       </div>
     </div>
+    <!-- Modal de Inclusão -->
     <div class="modal" :class="{ 'is-active': modalActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -121,7 +134,52 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success" @click="addColab">Salvar</button>
+          <button class="button is-success" @click="addColab($route.name)">
+            Salvar
+          </button>
+          <button class="button is-danger">Limpar</button>
+        </footer>
+      </div>
+    </div>
+    <!-- Modal de Inclusão de Horarios -->
+    <div class="modal" :class="{ 'is-active': mHorarios }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Horarios</p>
+          <button
+            class="delete"
+            @click="mHorarios = false"
+            aria-label="close"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="columns">
+            <div class="field column">
+              <div class="control">
+                <select multiple>
+                  <option
+                    v-for="sel in horario"
+                    :value="sel.hora"
+                    @click="$data.horaSetor.push(sel)"
+                    >{{ sel.hora }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="field column">
+              <div class="control">
+                <select multiple>
+                  <option v-for="sel in horaSetor" :value="sel">{{
+                    sel.hora
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" @click="addHorario">Salvar</button>
           <button class="button is-danger">Limpar</button>
         </footer>
       </div>
@@ -142,6 +200,10 @@ import timeEntrance from "./components/timeEntrance.vue";
 
 export default {
   name: "App",
+  firebase: {
+    horario: db.ref("horarios/master"),
+    addhora: db.ref("horarios")
+  },
 
   //
   data: function() {
@@ -152,7 +214,9 @@ export default {
       mat: "",
       nome: "",
       hora: "",
-      rota: "",
+      mHorarios: false,
+      horario: [],
+      horaSetor: [],
       edit: false,
       setor: "",
       setores: ["f_loja", "padaria", "fastfood", "peixaria", "cpd"],
@@ -199,10 +263,13 @@ export default {
     }
   },
   methods: {
-    addColab() {
+    addHorario() {
+     return db.ref("horarios/" + this.setor ).set(this.horaSetor);
+    },
+    addColab(url) {
       this.modalActive = false;
       const obj = { dia: "", hora: "" };
-      return db.ref("escalas/" + this.grota).push({
+      return db.ref(url + "/" + this.grota).push({
         mat: this.mat,
         nome: this.nome,
         edit: false,
