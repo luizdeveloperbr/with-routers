@@ -195,8 +195,8 @@ import moment from "moment";
 import "moment/locale/pt-br";
 moment.locale("pt-br");
 import { db } from "./db";
-import mensal from "./views/Mensalcomp.vue";
-import timeEntrance from "./components/timeEntrance.vue";
+//import mensal from "./views/Mensal.vue";
+//import timeEntrance from "./components/timeEntrance.vue";
 
 export default {
   name: "App",
@@ -264,7 +264,7 @@ export default {
   },
   methods: {
     addHorario() {
-     return db.ref("horarios/" + this.setor ).set(this.horaSetor);
+      return db.ref("horarios/" + this.setor).set(this.horaSetor);
     },
     addColab(url) {
       this.modalActive = false;
