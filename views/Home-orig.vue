@@ -1,18 +1,39 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <li v-for="c in banco">
+        <ul>{{c.mat}} || {{c.name}}</ul>
+    </li>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '../components/HelloWorld.vue'
-
+import { db } from "../db.js";
+const setor = db.ref("organico");
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  name: "home",
+  data: function() {
+    return {
+      banco: [],
+      id: this.$route.query.setor
+    };
+  },
+  mounted(){
+    /*
+    função usada para carregar o organico inicia, caso o mÊs esteja Vazio, 
+    */
+      if (Boolean(this.$route.query.setor) == false) {
+        return this.id = 'cpd';
+      } else {
+        this.id = this.$route.query.setor;
+      } 
+  },
+  watch: {
+    id: {
+      immediate: true,
+      handler(id) {
+        this.$rtdbBind("banco", setor.child(id));
+      }
+    }
   }
-}
+};
 </script>

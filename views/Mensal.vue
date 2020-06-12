@@ -166,7 +166,7 @@ import domingo from "../components/domingo.vue";
 import timeEntrance from "../components/timeEntrance.vue";
 const setores = db.ref("mensal");
 export default {
-  name: "mensal",
+  name: "Mensal",
   //  props: ["id", "getDate", "setor"],
   data: function() {
     return {
@@ -252,10 +252,12 @@ export default {
   },
   computed: {
     id() {
-      return this.$parent.grota;
+        var url = this.$route.query.setor + "/" + this.$route.query.mes;
+      //var url = this.$parent.setor + "/organico"
+      return url.toLowerCase();
     },
     setor() {
-      return this.$parent.setor;
+      return this.$route.query.setor;
     },
     condFivDom: function() {
       return (

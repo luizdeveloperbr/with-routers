@@ -7,14 +7,14 @@
           <div class="buttons">
             <router-link
               class="button"
-              exact-active-class="is-primary"
+              active-class="is-primary"
               to="mensal"
               >Mensal</router-link
             >
 
             <router-link
               class="button"
-              exact-active-class="is-primary"
+              active-class="is-primary"
               to="interjornada"
               >Interjornada</router-link
             >
@@ -46,8 +46,9 @@
           </div>
           <div class="min">
             <div class="level-item has-text-weight-bold">
-              Escala Mensal: <span style="color: #fff0">■</span>
+              <p>Escala <span class="is-capitalized">{{$route.name}}</span>:</p> <span style="color: #fff0">■</span>
               <flat-pickr
+              @input="inmes"
                 class="input"
                 style="width: 140px"
                 :config="mconfig"
@@ -63,7 +64,7 @@
                     aria-haspopup="true"
                     aria-controls="dropdown-menu4"
                   >
-                    <span class="is-uppercase">{{ setor }}</span>
+                    <span class="is-uppercase">{{ $route.query.setor }}</span>
                     <span class="icon is-small">
                       <i class="material-icons">
                         keyboard_arrow_down
@@ -74,10 +75,13 @@
                 <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                   <div class="dropdown-content">
                     <div class="dropdown-item" v-for="set in setores">
-                      <a @click="setor = set"
+                    <router-link :to="{query: {setor: set}}">
+                        {{ set }}
+                    </router-link>
+                      <!--<a @click="setor = set"
                         ><p class="is-uppercase">{{ set }}</p>
                         <p></p
-                      ></a>
+                      ></a>-->
                     </div>
                   </div>
                 </div>
@@ -195,8 +199,6 @@ import moment from "moment";
 import "moment/locale/pt-br";
 moment.locale("pt-br");
 import { db } from "./db";
-//import mensal from "./views/Mensal.vue";
-//import timeEntrance from "./components/timeEntrance.vue";
 
 export default {
   name: "App",
@@ -217,7 +219,6 @@ export default {
       mHorarios: false,
       horario: [],
       horaSetor: [],
-      edit: false,
       setor: "",
       setores: ["f_loja", "padaria", "fastfood", "peixaria", "cpd"],
       mconfig: {
@@ -231,23 +232,6 @@ export default {
     };
   },
   computed: {
-    grota: function() {
-      var url = this.setor + "/" + this.inmes;
-      //var url = this.$parent.setor + "/organico"
-      return url.toLowerCase();
-    },
-    editshow() {
-      if (this.edit == true) {
-        return false;
-      }
-      if (this.edit == false) {
-        return true;
-      }
-    },
-    //old
-    inmes() {
-      return moment(this.monthpick, "MMMM YYYY").format("MMMM");
-    },
     validateDate: function() {
       var initDate = moment("Janeiro", "MMMM")
         .startOf("month")
@@ -263,8 +247,13 @@ export default {
     }
   },
   methods: {
+          inmes() {
+      var mess = moment(this.monthpick, "MMMM YYYY").format("MMMM").toLowerCase();
+      var set = this.$route.query.setor
+      return this.$router.push({query:{mes: mess,setor: set}})
+    },
     addHorario() {
-      return db.ref("horarios/" + this.setor).set(this.horaSetor);
+      return db.ref("horarios/" + this.$route.query.setor).set(this.horaSetor);
     },
     addColab(url) {
       this.modalActive = false;
@@ -284,7 +273,6 @@ export default {
 @charset 'utf-8';
 $primary: hsl(1.5, 100%, 47.8%);
 @import "./node_modules/bulma/bulma.sass";
-@import "./node_modules/bulma-switch";
 .has-border {
   border-style: solid;
   border-radius: 10px;

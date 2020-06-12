@@ -108,7 +108,7 @@ import sabado from "../components/sabado.vue";
 import timeEntrance from "../components/timeEntrance.vue";
 const setores = db.ref("interjornada");
 export default {
-  name: "interjornada",
+  name: "Interjornada",
   props: ["getDate", "disabled"],
   data: function() {
     return {
