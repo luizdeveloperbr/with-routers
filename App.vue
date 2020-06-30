@@ -5,10 +5,7 @@
       <div class="navbar-start">
         <div class="navbar-item">
           <div class="buttons">
-            <router-link
-              class="button"
-              active-class="is-primary"
-              to="mensal"
+            <router-link class="button" active-class="is-primary" to="mensal"
               >Mensal</router-link
             >
 
@@ -27,9 +24,9 @@
             <a class="button" @click="mHorarios = true">
               Horarios
             </a>
-            <a class="button" @click="modalActive = true">
+            <router-link class="button" to="organico">
               Orgânico
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -46,9 +43,13 @@
           </div>
           <div class="min">
             <div class="level-item has-text-weight-bold">
-              <p>Escala <span class="is-capitalized">{{$route.name}}</span>:</p> <span style="color: #fff0">■</span>
+              <p>
+                Escala <span class="is-capitalized">{{ $route.name }}</span
+                >:
+              </p>
+              <span style="color: #fff0">■</span>
               <flat-pickr
-              @input="inmes"
+                @input="inmes"
                 class="input"
                 style="width: 140px"
                 :config="mconfig"
@@ -75,10 +76,10 @@
                 <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                   <div class="dropdown-content">
                     <div class="dropdown-item" v-for="set in setores">
-                    <router-link :to="{query: {setor: set}}">
+                      <router-link :to="{ query: { setor: set } }">
                         {{ set }}
-                    </router-link>
-                      <!--<a @click="setor = set"
+                      </router-link>
+                      <!-- <a @click="setor = set"
                         ><p class="is-uppercase">{{ set }}</p>
                         <p></p
                       ></a>-->
@@ -211,7 +212,7 @@ export default {
   data: function() {
     return {
       modalActive: false,
-      monthpick: moment(new Date()).format("MMMM YYYY"), //old
+      monthpick: null,
       cod: 0,
       mat: "",
       nome: "",
@@ -247,10 +248,12 @@ export default {
     }
   },
   methods: {
-          inmes() {
-      var mess = moment(this.monthpick, "MMMM YYYY").format("MMMM").toLowerCase();
-      var set = this.$route.query.setor
-      return this.$router.push({query:{mes: mess,setor: set}})
+    inmes() {
+      var mess = moment(this.monthpick, "MMMM YYYY")
+        .format("MMMM")
+        .toLowerCase();
+      var set = this.$route.query.setor;
+      return this.$router.push({ query: { mes: mess, setor: set } });
     },
     addHorario() {
       return db.ref("horarios/" + this.$route.query.setor).set(this.horaSetor);
@@ -258,12 +261,14 @@ export default {
     addColab(url) {
       this.modalActive = false;
       const obj = { dia: "", hora: "" };
-      return db.ref(url + "/" + this.grota).push({
-        mat: this.mat,
-        nome: this.nome,
-        edit: false,
-        domingos: [obj, obj, obj, obj, obj]
-      });
+      return db
+        .ref(url + "/" + this.$route.query.setor + "/" + this.$route.query.mes)
+        .push({
+          mat: this.mat,
+          nome: this.nome,
+          edit: false,
+          domingos: [obj, obj, obj, obj, obj]
+        });
       //.then(this.clearAdd());
     }
   }

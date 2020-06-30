@@ -1,9 +1,5 @@
 <template>
-  <div class="home">
-    <li v-for="c in banco">
-        <ul>{{c.mat}} || {{c.name}}</ul>
-    </li>
-  </div>
+    <h1 class="title">Home</h1>
 </template>
 
 <script>
@@ -14,18 +10,45 @@ export default {
   data: function() {
     return {
       banco: [],
-      id: this.$route.query.setor
+      modalActive: false,
+      mat: "",
+      nome: "",
+      setor: null,
+      //id: this.$route.query.setor
     };
   },
-  mounted(){
+  mounted() {
     /*
     função usada para carregar o organico inicia, caso o mÊs esteja Vazio, 
     */
-      if (Boolean(this.$route.query.setor) == false) {
-        return this.id = 'cpd';
-      } else {
-        this.id = this.$route.query.setor;
-      } 
+    if (Boolean(this.$route.query.setor) == false) {
+      return (this.id = "cpd");
+    } else {
+      this.id = this.$route.query.setor;
+    }
+  },
+  computed: {
+    id() {
+        return this.$route.query.setor
+     /* if (this.setor == null) {
+        return (this.modalActive = true);
+      }*/
+    }
+  },
+  methods: {
+          addColab() {
+      this.modalActive = false;
+      const obj = { dia: "", hora: "" };
+      return db
+        .ref("organico/" + this.$route.query.setor/* + "/" + this.$route.query.mes*/)
+        .push({
+          mat: this.mat,
+          nome: this.nome,
+          edit: false,
+          domingos: [obj, obj, obj, obj, obj]
+        });
+      //.then(this.clearAdd());
+    }
   },
   watch: {
     id: {

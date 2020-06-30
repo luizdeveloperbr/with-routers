@@ -174,6 +174,7 @@ export default {
       nome: "",
       mat: "",
       edit: false,
+      idy: "",
       updat: "",
       d0_hora: "",
       d0_folga: "",
@@ -253,9 +254,18 @@ export default {
   computed: {
     id() {
         var url = this.$route.query.setor + "/" + this.$route.query.mes;
-      //var url = this.$parent.setor + "/organico"
       return url.toLowerCase();
     },
+    noEmpty(){
+    /*
+    função usada para carregar o organico inicia, caso o mÊs esteja Vazio, 
+    */
+    if (this.banco.length == 0) {
+      return this.idy = "organico/" + this.$route.query.setor;
+    } else {
+      return this.idy = this.id;
+    }
+  },
     setor() {
       return this.$route.query.setor;
     },
