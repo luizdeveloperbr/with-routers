@@ -56,9 +56,9 @@
 
 <script>
 import { db } from "../db.js";
-const setor = db.ref("organico");
+const setor = db.ref("setores");
 export default {
-  name: "home",
+  name: "organico",
   data: function() {
     return {
       banco: [],
@@ -92,7 +92,7 @@ export default {
       this.modalActive = false;
       const obj = { dia: "", hora: "" };
       return db
-        .ref("organico/" + this.$route.query.setor/* + "/" + this.$route.query.mes*/)
+        .ref('setores/' + this.$route.params.setor + '/organico')
         .push({
           mat: this.mat,
           nome: this.nome,

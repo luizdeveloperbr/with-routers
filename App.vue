@@ -3,41 +3,32 @@
   <div>
     <nav class="navbar is-dark">
       <div class="navbar-start">
-        <!--<div class="navbar-item">
-          <div class="buttons">
-            <router-link class="button" active-class="is-primary" to="mensal"
-              >Mensal</router-link
-            >
-
-            <router-link
-              class="button"
-              active-class="is-primary"
-              to="interjornada"
-              >Interjornada</router-link
-            >
-          </div>
-        </div>-->
-          <div class="navbar-item has-dropdown is-hoverable is-arrowless">
-    <a class="navbar-link" style="background: white;color: black;margin-top: 10px;margin-bottom: 10px;margin-left: 5px;margin-right: 5px;border-radius: 10%;">
-      Setor
-    </a>
-
-    <div class="navbar-dropdown">
-      <a class="navbar-item">
-        Overview
-      </a>
-      <a class="navbar-item">
-        Elements
-      </a>
-      <a class="navbar-item">
-        Components
-      </a>
-      <hr class="navbar-divider">
-      <div class="navbar-item">
-        Version 0.9.1
+        <div class="navbar-item pr-0">Selecione: </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+            {{$route.params.setor || "Setor"}}
+          </a>
+          <div class="navbar-dropdown">
+            <div class="navbar-item">
+            <router-link to="/cpd">CPD</router-link>
+            </div>
+            <div class="navbar-item">
+            <router-link to="/salgado">Salgado</router-link>
+            </div>
+            <div class="navbar-item">
+            <router-link to="/acougue">Açougue</router-link>
+            </div>
+            </div>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="navbar-item pr-0 has-text-white">Mês: </div>
+      <div class="navbar-item">
+      <flat-pickr
+                class="input"
+                style="width: 140px"
+                :config="mconfig"
+                v-model="monthpick"
+              />
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -45,7 +36,7 @@
             <a class="button" @click="mHorarios = true">
               Horarios
             </a>
-            <router-link class="button" to="organico">
+            <router-link class="button" :to="{name: 'organico'}">
               Orgânico
             </router-link>
           </div>

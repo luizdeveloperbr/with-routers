@@ -25,15 +25,15 @@
         <td class="mat-ret">Matricula</td>
         <td>Colaborador</td>
         <td class="mat-ret">Retorno</td>
-        <td><domingo add-weeks="0"></domingo></td>
+        <td><domingo add-weeks="0" ref="d1"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="1"></domingo></td>
+        <td><domingo add-weeks="1" ref="d2"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="2"></domingo></td>
+        <td><domingo add-weeks="2" ref="d3"></domingo></td>
         <td>folga</td>
-        <td><domingo add-weeks="3"></domingo></td>
+        <td><domingo add-weeks="3" ref="d4"></domingo></td>
         <td>folga</td>
-        <td v-show="condFivDom"><domingo add-weeks="4"></domingo></td>
+        <td v-show="condFivDom"><domingo add-weeks="4" ref="d5"></domingo></td>
         <td v-if="condFivDom">folga</td>
       </tr>
       <tr v-for="colab in banco" :class="{ 'is-selected': colab.edit }">
@@ -55,7 +55,7 @@
         </td>
         <td>{{ colab.mat }}</td>
         <td>{{ colab.nome }}</td>
-        <td></td>
+        <td>{{this.$refs.d1.w}}</td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d0_hora"
@@ -164,7 +164,7 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js";
 import folga from "../components/folga.vue";
 import domingo from "../components/domingo.vue";
 import timeEntrance from "../components/timeEntrance.vue";
-const setores = db.ref("mensal");
+const setores = db.ref("setores");
 export default {
   name: "Mensal",
   //  props: ["id", "getDate", "setor"],
@@ -253,7 +253,7 @@ export default {
   },
   computed: {
     id() {
-        var url = this.$route.query.setor + "/" + this.$route.query.mes;
+        var url = this.$route.params.setor + '/organico'
       return url.toLowerCase();
     },
     noEmpty(){
@@ -266,9 +266,9 @@ export default {
       return this.idy = this.id;
     }
   },
-    setor() {
+   /* setor() {
       return this.$route.query.setor;
-    },
+    },*/
     condFivDom: function() {
       return (
         moment(this.validateDate)

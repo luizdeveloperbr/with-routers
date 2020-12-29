@@ -1,10 +1,10 @@
 <template>
-    <h1 class="title">Home</h1>
+    <h1 class="title">{{$route.params.setor}}</h1>
 </template>
 
 <script>
 import { db } from "../db.js";
-const setor = db.ref("organico");
+const setor = db.ref("setores");
 export default {
   name: "home",
   data: function() {
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     id() {
-        return this.$route.query.setor
+        return this.$route.params.setor
      /* if (this.setor == null) {
         return (this.modalActive = true);
       }*/

@@ -23,7 +23,7 @@ moment.locale('pt-br')
 		},
 		W: function()
 		{
-			return moment(this.iniDate).format('dddd')
+			return Number(moment(this.iniDate).format('w'))
 		}
 	}
 }

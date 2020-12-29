@@ -11,14 +11,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: Home
+      path: "/:setor",
+      name: "mensal",
+      component: Mensal
     },
     {
       path: "/mensal",
-      name: "mensal",
-      component: Mensal
+      name: "home",
+      component: Home
     },
     {
       path: "/interjornada",
@@ -26,7 +26,7 @@ export default new Router({
       component: Interjornada
     },
     {
-      path: "/organico",
+      path: "/organico/:setor",
       name: "organico",
       component: Organico
     }
