@@ -53,54 +53,6 @@
 "
             />
           </div>
-          <div class="min">
-            <div class="level-item has-text-weight-bold">
-              <p>
-                Escala <span class="is-capitalized">{{ $route.name }}</span
-                >:
-              </p>
-              <span style="color: #fff0">■</span>
-              <flat-pickr
-                @input="inmes"
-                class="input"
-                style="width: 140px"
-                :config="mconfig"
-                v-model="monthpick"
-              />
-            </div>
-            <div class="level-item has-text-weight-bold">
-              Setor: <span style="color: #fff0">■</span>
-              <div class="dropdown is-hoverable">
-                <div class="dropdown-trigger">
-                  <button
-                    class="button"
-                    aria-haspopup="true"
-                    aria-controls="dropdown-menu4"
-                  >
-                    <span class="is-uppercase">{{ $route.query.setor }}</span>
-                    <span class="icon is-small">
-                      <i class="material-icons">
-                        keyboard_arrow_down
-                      </i>
-                    </span>
-                  </button>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                  <div class="dropdown-content">
-                    <div class="dropdown-item" v-for="set in setores">
-                      <router-link :to="{ query: { setor: set } }">
-                        {{ set }}
-                      </router-link>
-                      <!-- <a @click="setor = set"
-                        ><p class="is-uppercase">{{ set }}</p>
-                        <p></p
-                      ></a>-->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="level-right">
             <p class="content is-small">
               LIDER COMERCIO E IND. LTDA <br />ROD BR-316 KM 02 - GUANABARA -

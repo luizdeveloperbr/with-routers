@@ -90,14 +90,18 @@ export default {
   methods: {
           addColab() {
       this.modalActive = false;
+      var weeks = []
       const obj = { dia: "", hora: "" };
+      while (weeks.lenght > 52){
+          weeks.push(obj)
+      }
       return db
         .ref('setores/' + this.$route.params.setor + '/organico')
         .push({
           mat: this.mat,
           nome: this.nome,
           edit: false,
-          domingos: [obj, obj, obj, obj, obj]
+          domingos: weeks
         });
       //.then(this.clearAdd());
     }

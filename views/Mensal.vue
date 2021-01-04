@@ -3,7 +3,7 @@
   <div class="table-container">
     <table class="table is-bordered">
       <tr id="head-list" class="has-text-centered">
-        <td>Editar</td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -37,25 +37,17 @@
         <td v-if="condFivDom">folga</td>
       </tr>
       <tr v-for="colab in banco" :class="{ 'is-selected': colab.edit }">
-        <td style="padding:8px 0px!important; min-width: 100px">
-          <div class="buttons has-addons">
-            <a
-              class="button is-rounded is-primary is-small"
-              @click="remColab(colab['.key'])"
-              v-show="edit"
-              ><i class="material-icons">clear</i></a
-            >
+        <td class="p-0">
             <a
               class="button is-rounded is-success is-small"
               @click="editColab(colab.edit, colab['.key'])"
               v-show="edit"
               ><i class="material-icons">edit</i></a
             >
-          </div>
         </td>
         <td>{{ colab.mat }}</td>
         <td>{{ colab.nome }}</td>
-        <td>{{this.$refs.d1.w}}</td>
+        <td></td>
         <td class="has-text-centered hora">
           <time-entrance
             v-model="d0_hora"
@@ -266,9 +258,9 @@ export default {
       return this.idy = this.id;
     }
   },
-   /* setor() {
-      return this.$route.query.setor;
-    },*/
+   setor() {
+      return this.$route.params.setor;
+    },
     condFivDom: function() {
       return (
         moment(this.validateDate)
