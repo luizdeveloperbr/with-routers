@@ -56,6 +56,7 @@
 
 <script>
 import { db } from "../db.js";
+import moment from 'moment'
 const setor = db.ref("setores");
 export default {
   name: "organico",
@@ -81,28 +82,30 @@ export default {
   },
   computed: {
     id() {
-        return this.$route.query.setor
+        return this.$route.params.setor
      /* if (this.setor == null) {
         return (this.modalActive = true);
       }*/
+    },
+    week:function(){
+        var weeks = []
+              var i = weeks.length
+            while (i < 52){
+                  weeks.push({ dia: moment({y:2021}).add(i++,"week").format(), hora: Date.now() })
+              }
+              return weeks
     }
   },
   methods: {
           addColab() {
-      this.modalActive = false;
-      var weeks = []
-      const obj = { dia: "", hora: "" };
-      while (weeks.lenght > 52){
-          weeks.push(obj)
-      }
       return db
         .ref('setores/' + this.$route.params.setor + '/organico')
         .push({
           mat: this.mat,
           nome: this.nome,
           edit: false,
-          domingos: weeks
-        });
+          domingos: this.week
+        })
       //.then(this.clearAdd());
     }
   },

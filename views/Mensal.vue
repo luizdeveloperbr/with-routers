@@ -25,7 +25,7 @@
         <td class="mat-ret">Matricula</td>
         <td>Colaborador</td>
         <td class="mat-ret">Retorno</td>
-        <td><domingo add-weeks="0" ref="d1"></domingo></td>
+        <td><domingo add-weeks="0" ref="do"></domingo></td>
         <td>folga</td>
         <td><domingo add-weeks="1" ref="d2"></domingo></td>
         <td>folga</td>
@@ -54,9 +54,9 @@
             @input="updateHora(colab['.key'], 0)"
             v-if="colab.edit"
             :setor="setor"
-            :get-value="colab.domingos[0].hora"
+            :get-value="colab.domingos[$refs.do.W].hora"
           ></time-entrance>
-          <span v-else>{{ colab.domingos[0].hora }}</span>
+          <span v-else>{{ colab.domingos[$refs.do.W].hora }}</span>
         </td>
         <td class="dia has-text-centered">
           <folga
